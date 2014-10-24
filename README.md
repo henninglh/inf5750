@@ -1,6 +1,7 @@
-Exercise C - Implement a touch-based messaging app.
+Exercise B - Data element bulk editor
 
-The app should be optimized for touch-based devices with offline support for
-last "X" months of messages.
+Display a paged list of data elements with the most-used fields on a single row
+per data element, and allow for editing each field directly. Include both
+free-text fields and drop-downs (category combo etc.).
 
 GG no re!
