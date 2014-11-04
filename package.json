@@ -1,0 +1,31 @@
+{
+  "name": "INF5750-Group-Project",
+  "version": "1.0.0",
+  "description": "Display a paged list of data elements with the most-used fields on a single row per data element, and allow for editing each field directly. Include both free-text fields and drop-downs (category combo etc.).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henninglh/inf5750.git"
+  },
+  "keywords": [
+    "DHIS2"
+  ],
+  "author": "Architect Wireless Web Services",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/henninglh/inf5750/issues"
+  },
+  "homepage": "https://github.com/henninglh/inf5750",
+  "dependencies": {
+    "express": "^4.10.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "karma": "^0.12.24",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-jasmine": "^0.2.3"
+  }
+}
