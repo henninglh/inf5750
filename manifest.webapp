@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "Data Element Bulk Editor",
+    "description": "The application allows the user to create, update, clone, remove and administrate the resource called Data Elements in DHIS 2.",
+    "launch_path": "/index.html",
+    "icons": {
+        "16": "/img/icons/mortar-16.png",
+        "48": "/img/icons/mortar-48.png",
+        "128": "/img/icons/mortar-128.png"
+    },
+    "developer": {
+        "name": "Architect Wireless Web Services",
+        "url": "https://wiki.uio.no/mn/ifi/inf5750/index.php/Architect_Wireless_Web_Services"
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "*"
+        }
+    }
+}
