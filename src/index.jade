@@ -1,10 +1,18 @@
-head
-    link(rel="stylesheet" type="text/css" href="css/style.min.css")
-    script(src="js/angular/angular.min.js")
-    script(src="js/app.min.js")
+doctype html
+html(ng-app="dataElementBulkEditorApp")
+    include views/head.jade
 
 body
-    h1 hei livereload
-    p.
-        jeg har savnet deg....
-
+    .container
+        h1 Midlertidig side
+            br
+            small Overskriv når liste-siden er klar!
+        .row
+            .col-sm-12
+                p Her kommer liste-biten og filtrering\søk
+                ul
+                    li
+                        a(href="#/show/123") Show dataElement
+                    li
+                        a(href="#/create") Create\Edit dataElement
+            .col-sm-12(ng-view)

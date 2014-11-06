@@ -72,7 +72,7 @@ gulp.task('templates', function () {
  * them into a single app.min.js file, ready for production
  **/
 gulp.task('scripts', function () {
-    return gulp.src('./src/js/**/*.js')
+    return gulp.src(['./src/js/app.js', './src/js/**/*.js'])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
         .pipe(gulp.dest('dist/js/'))
@@ -97,6 +97,8 @@ gulp.task('styles', function () {
  * servers for these libraries(cdn)
  **/
 gulp.task('load', function () {
+    gulp.src('./bower_components/angular-mocks/angular-mocks.js*')
+        .pipe(gulp.dest('./dist/js/'));
     gulp.src('./bower_components/**/*.min.js*')
         .pipe(gulp.dest('./dist/js/'));
     gulp.src('./bower_components/**/*.min.css')

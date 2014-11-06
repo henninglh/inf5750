@@ -1,1 +1,1 @@
-var app = angular.module('dataElementBulkEditorApp', []);
+var app = angular.module('dataElementBulkEditorApp', ['ngRoute']);
