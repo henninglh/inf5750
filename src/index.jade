@@ -4,9 +4,7 @@ html(ng-app="dataElementBulkEditorApp" ng-init="fullSize=true")
 
 body
     .container
-        h1 Midlertidig side
-            br
-            small Overskriv når liste-siden er klar!
+        h1 Wow.. such list
         .row(ng-controller="ListController as list" ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
             .list-group
                 a.list-group-item(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
