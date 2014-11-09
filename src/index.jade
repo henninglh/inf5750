@@ -3,13 +3,21 @@ html(ng-app="dataElementBulkEditorApp" ng-init="fullSize=true")
     include views/head.jade
 
 body
-    .container
-        h1 Wow.. such list
-        .row(ng-controller="ListController as list" ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
+    .container(ng-controller="ListController as list")
+        .row.col-sm-12
+            nav.navbar.navbar-default
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href) Wow... such list
+                    form.navbar-form.navbar-right(role="search")
+                        .form-group
+                            input.form-control(type="text" placeholder="Filter" ng-model="filter")
+                    button.btn.btn-default.navbar-btn.navbar-right Sort by
+                        span.caret
+
+        .row(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
             .list-group
                 a.list-group-item(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
                     span.glyphicon.glyphicon-edit.pull-right(ng-href="#/edit/{{dataElement.id}}")
-                //
-                    I don't know why these clyphicons dont work.
 
             .col-sm-12(ng-view)
