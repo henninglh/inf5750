@@ -103,6 +103,8 @@ gulp.task('load', function () {
         .pipe(gulp.dest('./dist/js/'));
     gulp.src('./bower_components/**/*.min.css')
         .pipe(gulp.dest('./dist/css/'));
+    gulp.src('./bower_components/bootstrap/dist/fonts/*')
+        .pipe(gulp.dest('./dist/css/bootstrap/dist/fonts/'));
 });
 
 /**
