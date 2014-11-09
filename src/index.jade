@@ -1,5 +1,5 @@
 doctype html
-html(ng-app="dataElementBulkEditorApp")
+html(ng-app="dataElementBulkEditorApp" ng-init="fullSize=true")
     include views/head.jade
 
 body
@@ -7,12 +7,11 @@ body
         h1 Midlertidig side
             br
             small Overskriv når liste-siden er klar!
-        .row
-            .col-sm-12
-                p Her kommer liste-biten og filtrering\søk
-                ul
-                    li
-                        a(href="#/show/123") Show dataElement
-                    li
-                        a(href="#/create") Create\Edit dataElement
+        .row(ng-controller="ListController as list" ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
+            .list-group
+                a.list-group-item(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
+                    span.glyphicon.glyphicon-edit.pull-right(ng-href="#/edit/{{dataElement.id}}")
+                //
+                    I don't know why these clyphicons dont work.
+
             .col-sm-12(ng-view)
