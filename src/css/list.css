@@ -1,0 +1,20 @@
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-icon-link {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.list-icon-link:hover {
+    color: lightgray !important;
+}
+
+.list-group-item.active a {
+    color: white !important;
+}
+
+.list-group-item.active a:hover {
+    color: lightgray !important;
+}
