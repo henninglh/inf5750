@@ -19,13 +19,13 @@ body
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 ul.list-group
-                    li.row.list-group-item(ng-repeat="dataElement in list.dataElements")
-                        a.col-sm-9(ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
-                        a.col-sm-1(ng-href="#/clone/{{dataElement.id}}")
-                            i.fi-page-copy
-                        a.col-sm-1(ng-href="#/delete/{{dataElement.id}}")
-                            i.fi-page-delete
+                    li.row.list-group-item.container-fluid(ng-repeat="dataElement in list.dataElements")
+                        a(ng-class="fullSize ? 'col-sm-8' : 'col-sm-7'" ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
                         a.col-sm-1(ng-href="#/edit/{{dataElement.id}}")
-                            i.fi-page-edit
+                            i.flaticon-edit26
+                        a.col-sm-1(ng-href="#/delete/{{dataElement.id}}")
+                            i.flaticon-delete30
+                        a.col-sm-1(ng-href="#/clone/{{dataElement.id}}")
+                            i.flaticon-copy12
 
             .col-sm-9(ng-view, ng-show="!fullSize")
