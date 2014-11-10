@@ -20,7 +20,7 @@ body
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 ul.list-group
                     li.row.list-group-item.container-fluid(ng-repeat="dataElement in list.dataElements")
-                        a(ng-class="fullSize ? 'col-sm-8' : 'col-sm-7'" ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
+                        a(ng-class="fullSize ? 'col-sm-9' : 'col-sm-7'" ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
                         a.col-sm-1(ng-href="#/edit/{{dataElement.id}}")
                             i.flaticon-edit26
                         a.col-sm-1(ng-href="#/delete/{{dataElement.id}}")
