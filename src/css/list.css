@@ -4,17 +4,17 @@
 
 .list-icon-link {
     text-decoration: none !important;
-    color: black !important;
+    color: black;
 }
 
 .list-icon-link:hover {
-    color: lightgray !important;
+    color: gray;
 }
 
 .list-group-item.active a {
-    color: white !important;
+    color: white;
 }
 
 .list-group-item.active a:hover {
-    color: lightgray !important;
+    color: lightgray;
 }
