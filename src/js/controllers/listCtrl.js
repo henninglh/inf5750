@@ -7,12 +7,16 @@ app.controller("ListController", ['$scope', '$location', function($scope, $locat
         },
         function( newValue ) {
             $scope.fullSize = (newValue === '/');
+
+            if($scope.fullSize)
+                for(var i = 0; i < $scope.dataElements.length; i++)
+                    $scope.dataElements[i].active = false;
         }
     );
 
     this.currentElement = -1;
     this.editItem = -1;
-    this.dataElements = [
+    $scope.dataElements = [
         {
             name: "Element one",
             id: 0
@@ -54,4 +58,15 @@ app.controller("ListController", ['$scope', '$location', function($scope, $locat
             id: 9
         }
     ];
+
+    $scope.selectElement = function(element) {
+        for(var i = 0; i < $scope.dataElements.length; i++) {
+            if ($scope.dataElements[i] === element)
+                $scope.dataElements[i].active = true;
+            else
+                $scope.dataElements[i].active = false;
+        }
+
+        $location.path("/show/" + element.id);
+    };
 }]);

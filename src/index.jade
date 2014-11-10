@@ -19,13 +19,13 @@ body
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 .list-group
-                    a.list-group-item.clearfix(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
-                        span.pull-right
-                            a.btn(ng-href="#/edit/{{dataElement.id}}")
+                    .list-group-item.clearfix(ng-repeat="dataElement in dataElements", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
+                        .pull-right
+                            a.btn-xs.btn(ng-href="#/edit/{{dataElement.id}}")
                                 i.flaticon-edit26
-                            a.btn(ng-href="#/delete/{{dataElement.id}}")
+                            a.btn-xs.btn(ng-href="#/delete/{{dataElement.id}}")
                                 i.flaticon-delete30
-                            a.btn(ng-href="#/clone/{{dataElement.id}}")
+                            a.btn-xs.btn(ng-href="#/clone/{{dataElement.id}}")
                                 i.flaticon-copy12
 
             .col-sm-9(ng-view, ng-show="!fullSize")
