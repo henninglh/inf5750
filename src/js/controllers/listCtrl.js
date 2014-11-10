@@ -1,4 +1,4 @@
-app.controller("ListController", ['$scope', '$location', function($scope, $location) {
+app.controller("ListController", ['$scope', '$location', 'dataElementService', function($scope, $location, dataElementService) {
 
     /** Watch expression to check whether the list should be fullSize or not. **/
     $scope.$watch(
@@ -16,7 +16,12 @@ app.controller("ListController", ['$scope', '$location', function($scope, $locat
 
     this.currentElement = -1;
     this.editItem = -1;
-    $scope.dataElements = [
+    $scope.dataElements = [];
+    dataElementService.getAllElements().then(function(data) {
+        $scope.dataElements = data.dataElements;
+    });
+    /*
+        [
         {
             name: "Element one",
             id: 0
@@ -57,7 +62,7 @@ app.controller("ListController", ['$scope', '$location', function($scope, $locat
             name: "Element ten",
             id: 9
         }
-    ];
+    ];*/
 
     $scope.selectElement = function(element) {
         for(var i = 0; i < $scope.dataElements.length; i++) {

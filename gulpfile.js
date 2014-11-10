@@ -72,7 +72,7 @@ gulp.task('templates', function () {
  * them into a single app.min.js file, ready for production
  **/
 gulp.task('scripts', function () {
-    return gulp.src(['./src/js/app.js', './src/js/**/*.js'])
+    return gulp.src(['./src/js/app.js', './src/js/services/*.js', './src/js/controllers/*.js', './src/js/config/*.js'])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
         .pipe(gulp.dest('dist/js/'))

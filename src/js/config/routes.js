@@ -28,9 +28,8 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'views/edit.html',
             controller: 'editCtrl',
             resolve: {
-                Data: ['$http', function($http) {
-                    return null;
-                    //return $http.get('url-to-some-data-element');
+                Data: ['dataElementService', '$route', function(dataElementService, $route) {
+                    return dataElementService.getElement($route.current.params.dataElementId);
                 }]
             }
         })

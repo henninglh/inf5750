@@ -1,12 +1,12 @@
-.content-window.container
-    h2 Create new data element
-    .alert.alert-info
+div
+    h2 {{ labels.title }}
+    .alert.alert-info(ng-show="data == null")
         | This object will be created with public edit and view rights
     fieldset.col-sm-8
         legend
             | Details (Fields with
             span.required-field  *
-            | is required)
+            |  is required)
         form.form-horizontal(action='#', method='POST', role='form')
             .form-group
                 label.col-sm-2.control-label(for='name')
