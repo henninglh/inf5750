@@ -18,8 +18,14 @@ body
 
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
-                .list-group
-                    a.list-group-item(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
-                        span.glyphicon.glyphicon-edit.pull-right(ng-href="#/edit/{{dataElement.id}}")
+                ul.list-group
+                    li.row.list-group-item(ng-repeat="dataElement in list.dataElements")
+                        a.col-sm-9(ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
+                        a.col-sm-1(ng-href="#/clone/{{dataElement.id}}")
+                            i.fi-page-copy
+                        a.col-sm-1(ng-href="#/delete/{{dataElement.id}}")
+                            i.fi-page-delete
+                        a.col-sm-1(ng-href="#/edit/{{dataElement.id}}")
+                            i.fi-page-edit
 
             .col-sm-9(ng-view, ng-show="!fullSize")
