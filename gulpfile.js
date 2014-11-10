@@ -105,8 +105,6 @@ gulp.task('load', function () {
         .pipe(gulp.dest('./dist/css/'));
     gulp.src('./bower_components/bootstrap/dist/fonts/*')
         .pipe(gulp.dest('./dist/css/bootstrap/dist/fonts/'));
-    gulp.src('./bower_components/foundation-icon-fonts/*icons*')
-        .pipe(gulp.dest('./dist/css/foundation-icon-fonts/'));
 });
 
 /**
