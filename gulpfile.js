@@ -105,6 +105,8 @@ gulp.task('load', function () {
         .pipe(gulp.dest('./dist/css/'));
     gulp.src('./bower_components/bootstrap/dist/fonts/*')
         .pipe(gulp.dest('./dist/css/bootstrap/dist/fonts/'));
+    gulp.src('./manually_downloaded_components/FlaticonDownload/*')
+        .pipe(gulp.dest('./dist/css/flaticon/'));
 });
 
 /**
