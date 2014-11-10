@@ -18,14 +18,14 @@ body
 
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
-                ul.list-group
-                    li.row.list-group-item.container-fluid(ng-repeat="dataElement in list.dataElements")
-                        a(ng-class="fullSize ? 'col-sm-9' : 'col-sm-7'" ng-href="#/show/{{dataElement.id}}") {{dataElement.name}}
-                        a.col-sm-1(ng-href="#/edit/{{dataElement.id}}")
-                            i.flaticon-edit26
-                        a.col-sm-1(ng-href="#/delete/{{dataElement.id}}")
-                            i.flaticon-delete30
-                        a.col-sm-1(ng-href="#/clone/{{dataElement.id}}")
-                            i.flaticon-copy12
+                .list-group
+                    a.list-group-item.clearfix(ng-href="#/show/{{dataElement.id}}" ng-repeat="dataElement in list.dataElements") {{dataElement.name}}
+                        span.pull-right
+                            a.btn(ng-href="#/edit/{{dataElement.id}}")
+                                i.flaticon-edit26
+                            a.btn(ng-href="#/delete/{{dataElement.id}}")
+                                i.flaticon-delete30
+                            a.btn(ng-href="#/clone/{{dataElement.id}}")
+                                i.flaticon-copy12
 
             .col-sm-9(ng-view, ng-show="!fullSize")
