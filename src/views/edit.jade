@@ -1,0 +1,50 @@
+.content-window.container
+    h2 Create new data element
+    .alert.alert-info
+        | This object will be created with public edit and view rights
+    fieldset.col-sm-8
+        legend
+            | Details (Fields with
+            span.required-field  *
+            | is required)
+        form.form-horizontal(action='#', method='POST', role='form')
+            .form-group
+                label.col-sm-2.control-label(for='name')
+                    | Name
+                    span.required-field *
+                .col-sm-10
+                    input.form-control(type='text', name='name', placeholder='Name')
+            .form-group
+                label.col-sm-2.control-label(for='domainType')
+                    | Domain type
+                    span.required-field *
+                .col-sm-10
+                    select.form-control(name='domainType')
+                        option(value='Aggregate') Aggregate
+                        option(value='Tracker') Tracker
+            .form-group
+                label.col-sm-2.control-label(for='valueType')
+                    | Value type
+                    span.required-field *
+                .col-sm-10
+                    select.form-control(name='valueType')
+                        option(value='Number') Number
+                        option(value='Text') Text
+                        option(value='Yes/No') Yes/No
+                        option(value='Yes Only') Yes Only
+                        option(value='Date') Date
+                        option(value='User name') User name
+            .form-group
+                label.col-sm-2.control-label(for='aggregationOperator')
+                    | Aggregation operator
+                    span.required-field *
+                .col-sm-10
+                    select.form-control(name='aggregationOperator')
+                        option(value='Sum') Sum
+                        option(value='Average') Average
+                        option(value='Count') Count
+                        option(value='Standard deviation') Standard deviation
+                        option(value='Variance') Variance
+                        option(value='Min') Min
+                        option(value='Max') Max
+    .col-sm-4
