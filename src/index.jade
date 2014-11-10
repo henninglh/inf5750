@@ -3,7 +3,7 @@ html(ng-app="dataElementBulkEditorApp" ng-init="fullSize=true")
     include views/head.jade
 
 body
-    .container(ng-controller="ListController")
+    .container(ng-controller="ListController as list")
         .row
             .col-sm-12
                 nav.navbar.navbar-default
@@ -19,13 +19,13 @@ body
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 .list-group
-                    .list-group-item.clearfix(ng-repeat="dataElement in dataElements", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
+                    .list-group-item(ng-repeat="dataElement in dataElements", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
                         .pull-right
-                            a(ng-href="#/edit/{{dataElement.id}}")
-                                i.flaticon-edit26
-                            a(ng-href="#/delete/{{dataElement.id}}")
-                                i.flaticon-delete30
-                            a(ng-href="#/clone/{{dataElement.id}}")
+                            a.list-icon-link(ng-href="#/clone/{{dataElement.id}}")
                                 i.flaticon-copy12
+                            a.list-icon-link(ng-href="#/delete/{{dataElement.id}}")
+                                i.flaticon-delete30
+                            a.list-icon-link(ng-href="#/edit/{{dataElement.id}}")
+                                i.flaticon-edit26
 
             .col-sm-9(ng-view, ng-show="!fullSize")
