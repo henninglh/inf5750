@@ -19,7 +19,7 @@ body
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 .list-group
-                    .list-group-item(ng-repeat="dataElement in dataElements", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
+                    .list-group-item.clearfix(ng-repeat="dataElement in dataElements | limitTo : 20", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
                         .pull-right
                             a.list-icon-link(ng-href="#/clone/{{dataElement.id}}")
                                 i.flaticon-copy12
