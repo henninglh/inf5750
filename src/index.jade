@@ -23,8 +23,7 @@ body
                         .pull-right
                             a.list-icon-link(ng-href="#/clone/{{dataElement.id}}")
                                 i.flaticon-copy12
-                            a.list-icon-link(ng-href="#/delete/{{dataElement.id}}")
-                                i.flaticon-delete30
+                            i.flaticon-delete30(ng-click="deleteElement($index)")
                             a.list-icon-link(ng-href="#/edit/{{dataElement.id}}")
                                 i.flaticon-edit26
 

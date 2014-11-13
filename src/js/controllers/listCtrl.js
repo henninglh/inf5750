@@ -29,4 +29,10 @@ app.controller("ListController", ['$scope', '$location', 'dataElementService', f
 
         $location.path("/show/" + element.id);
     };
+
+    $scope.deleteElement = function(index) {
+        if (index >= 0 && index < $scope.dataElements.length) {
+            $scope.dataElements.splice(index, 1);
+        }
+    };
 }]);
