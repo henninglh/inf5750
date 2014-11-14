@@ -30,9 +30,11 @@ app.controller("ListController", ['$window', '$scope', '$location', 'dataElement
         $location.path("/show/" + element.id);
     };
 
+    // TODO: Place confirmation on cursor location ($location)
     $scope.deleteElement = function(index) {
         if (index >= 0 && index < $scope.dataElements.length) {
             if ($window.confirm('Are you sure?')) {
+                // TODO: Delete from actual data source
                 $scope.dataElements.splice(index, 1);
             }
         }
