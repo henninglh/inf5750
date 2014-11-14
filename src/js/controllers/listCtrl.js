@@ -1,4 +1,4 @@
-app.controller("ListController", ['$scope', '$location', 'dataElementService', function($scope, $location, dataElementService) {
+app.controller("ListController", ['$window', '$scope', '$location', 'dataElementService', function($window, $scope, $location, dataElementService) {
 
     /** Watch expression to check whether the list should be fullSize or not. **/
     $scope.$watch(
@@ -32,7 +32,7 @@ app.controller("ListController", ['$scope', '$location', 'dataElementService', f
 
     $scope.deleteElement = function(index) {
         if (index >= 0 && index < $scope.dataElements.length) {
-            if (confirm('Are you sure?')) {
+            if ($window.confirm('Are you sure?')) {
                 $scope.dataElements.splice(index, 1);
             }
         }
