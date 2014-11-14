@@ -32,7 +32,9 @@ app.controller("ListController", ['$scope', '$location', 'dataElementService', f
 
     $scope.deleteElement = function(index) {
         if (index >= 0 && index < $scope.dataElements.length) {
-            $scope.dataElements.splice(index, 1);
+            if (confirm('Are you sure?')) {
+                $scope.dataElements.splice(index, 1);
+            }
         }
     };
 }]);
