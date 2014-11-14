@@ -1,5 +1,8 @@
 app.controller("ListController", ['$scope', '$location', 'dataElementService', function($scope, $location, dataElementService) {
 
+    /** I've heard rumors that say you don't have to initialize this, but it's good practice. **/
+    $scope.listFilter = "";
+
     /** Watch expression to check whether the list should be fullSize or not. **/
     $scope.$watch(
         function() {
