@@ -40,4 +40,5 @@ app.controller("ListController", ['$scope', '$location', 'dataElementService', f
             }
         }
     };
+
 }]);
