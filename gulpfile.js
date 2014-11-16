@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     minifyCSS = require('gulp-minify-css'),
     karma = require('gulp-karma'),
-    zip = require('gulp-zip');
+    zip = require('gulp-zip'),
+    clean = require('gulp-clean');
 
 var testFiles = [
     'test/test-main-js'
@@ -114,9 +115,17 @@ gulp.task('load', function () {
  * reaady to install, DHIS 2 application.
  */
 gulp.task('deploy', function () {
-    return gulp.src('dist/*')
+    return gulp.src(['dist', 'manifest.webapp'])
         .pipe(zip('ArchitectWirelessWebServices.zip'))
         .pipe(gulp.dest('dist'))
+});
+
+/**
+ * Empties the dist folder for a total scrub
+ */
+gulp.task('clean', function() {
+    return gulp.src('dist/*', {read: false})
+        .pipe(clean({force: true}));
 });
 
 /**
