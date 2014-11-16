@@ -2,7 +2,7 @@ div
     h2 {{ labels.title }}
     .alert.alert-info(ng-show="data == null")
         | This object will be created with public edit and view rights
-    fieldset.col-sm-8
+    fieldset.col-sm-12
         legend
             | Details (Fields with
             span.required-field  *
@@ -14,6 +14,26 @@ div
                     span.required-field *
                 .col-sm-10
                     input.form-control(type='text', name='name', placeholder='Name')
+            .form-group
+                label.col-sm-2.control-label(for='shortName')
+                    | Short name
+                .col-sm-10
+                    input.form-control(type='text', name='shortName', placeholder='Short name')
+            .form-group
+                label.col-sm-2.control-label(for='code')
+                    | Code
+                .col-sm-10
+                    input.form-control(type='text', name='code', placeholder='Code')
+            .form-group
+                label.col-sm-2.control-label(for='description')
+                    | Description
+                .col-sm-10
+                    textarea.form-control(type='text', name='description', placeholder='Short name')
+            .form-group
+                label.col-sm-2.control-label(for='formName')
+                    | Form name
+                .col-sm-10
+                    input.form-control(type='text', name='formName', placeholder='Form name')
             .form-group
                 label.col-sm-2.control-label(for='domainType')
                     | Domain type
@@ -47,4 +67,66 @@ div
                         option(value='Variance') Variance
                         option(value='Min') Min
                         option(value='Max') Max
-    .col-sm-4
+            .form-group
+                label.col-sm-2.control-label(for='storeZeroDataValues')
+                    | Store Zero Data Values
+                .col-sm-10
+                    select.form-control(name='storeZeroDataValues')
+                        option(value='Yes') Yes
+                        option(value='No') No
+            .form-group
+                label.col-sm-2.control-label(for='url')
+                    | Url
+                .col-sm-10
+                    input.form-control(type='text', name='url', placeholder='Url')
+            .form-group
+                label.col-sm-2.control-label(for='categoryCombination')
+                    | Category Combination
+                .col-sm-10
+                    select.form-control(name='categoryCombination')
+                        option Placeholder
+            .form-group
+                label.col-sm-2.control-label(for='optionSetForDataValues')
+                    | Option Set For DataValues
+                .col-sm-10
+                    select.form-control(name='optionSetForDataValues')
+                        option Placeholder
+            .form-group
+                label.col-sm-2.control-label(for='optionSetForComments')
+                    | Option Set For Comments
+                .col-sm-10
+                    select.form-control(name='optionSetForComments')
+                        option Placeholder
+            .form-group
+                label.col-sm-2.control-label(for='legendSet')
+                    | Legend Set
+                .col-sm-10
+                    select.form-control(name='legendSet')
+                        option Placeholder
+            .form-group
+                label.col-sm-2.control-label(for='aggregationLevels')
+                    | Aggregation Levels
+                .col-sm-10
+                    checkbox.form-control(name='aggregationLevels')
+            .form-group
+                label.col-sm-2.control-label(for='rationale')
+                    | Rationale
+                .col-sm-10
+                    input.form-control(type='text', name='rationale', placeholder='Rationale')
+            .form-group
+                label.col-sm-2.control-label(for='unitOfMeasure')
+                    | Unit of measure
+                .col-sm-10
+                    input.form-control(type='text', name='unitOfMeasure', placeholder='Unit of measure')
+            .form-group
+                label.col-sm-2.control-label(for='mainDataElementGroups')
+                    | Main Data Element Groups
+                .col-sm-10
+                    select.form-control(name='mainDataElementGroups')
+                        option Placeholder
+            .form-group
+                label.col-sm-2.control-label(for='trackerBasedData')
+                    | Tracker Based Data
+                .col-sm-10
+                    select.form-control(name='trackerBasedData')
+                        option Placeholder

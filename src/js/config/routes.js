@@ -50,7 +50,13 @@ app.config(['$routeProvider', function($routeProvider) {
         // When we are at show/:dataelementId, we are showing information about the selected element.
         // We request data from the api to fill our our view with the dataElements data.
         .when('/show/:dataElementId', {
-            templateUrl: 'views/show.html'
+            controller: 'showCtrl',
+            templateUrl: 'views/show.html',
+            resolve: {
+                Data: ['dataElementService', '$route', function(dataElementService, $route) {
+                    return dataElementService.getElement($route.current.params.dataElementId);
+                }]
+            }
         })
 
         // When accessing a url not covered in the routing, we send the user to the root(list).

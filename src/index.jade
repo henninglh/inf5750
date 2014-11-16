@@ -10,16 +10,16 @@ body
                     .container-fluid
                         .navbar-header
                             a.navbar-brand(href="#/") Wow... such list
-                        form.navbar-form.navbar-right(role="search")
+                        form.navbar-form.navbar-right(role="search" novalidate)
                             .form-group
-                                input.form-control(type="text" placeholder="Filter" ng-model="filter")
+                                input.form-control(type="text" ng-model="listFilter")
                         button.btn.btn-default.navbar-btn.navbar-right Sort by
                             span.caret
 
         .row
             div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
                 .list-group
-                    .list-group-item.clearfix(ng-repeat="dataElement in dataElements | limitTo : 20", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
+                    .list-group-item.clearfix(ng-repeat="dataElement in dataElements | filter:listFilter | limitTo : 20", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
                         .pull-right
                             a.list-icon-link(ng-href="#/clone/{{dataElement.id}}")
                                 i.flaticon-copy12
