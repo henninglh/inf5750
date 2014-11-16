@@ -18,3 +18,7 @@
 .list-group-item.active a:hover {
     color: lightgray;
 }
+
+.flaticon-delete30:hover {
+    color: red
+}
