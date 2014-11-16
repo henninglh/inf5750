@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     karma = require('gulp-karma'),
     zip = require('gulp-zip'),
-    clean = require('gulp-clean');
+    del = require('del');
 
 var testFiles = [
     'test/test-main-js'
@@ -124,8 +124,7 @@ gulp.task('deploy', function () {
  * Empties the dist folder for a total scrub
  */
 gulp.task('clean', function() {
-    return gulp.src('dist/*', {read: false})
-        .pipe(clean({force: true}));
+    return del('dist/*');
 });
 
 /**
