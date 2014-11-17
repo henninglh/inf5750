@@ -115,7 +115,7 @@ gulp.task('load', function () {
  * reaady to install, DHIS 2 application.
  */
 gulp.task('deploy', function () {
-    return gulp.src(['dist', 'manifest.webapp'])
+    return gulp.src(['dist/**/*', 'dist/*', 'manifest.webapp'])
         .pipe(zip('ArchitectWirelessWebServices.zip'))
         .pipe(gulp.dest('dist'))
 });
