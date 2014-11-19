@@ -114,7 +114,7 @@ gulp.task('load', function () {
  * Deploy makes the entire /dist/ folder into a zipped file, making it a complete,
  * reaady to install, DHIS 2 application.
  */
-gulp.task('deploy', function () {
+gulp.task('deploy', ['clean', 'build'], function () {
     return gulp.src(['dist/**/*', 'dist/*', 'manifest.webapp'])
         .pipe(zip('ArchitectWirelessWebServices.zip'))
         .pipe(gulp.dest('dist'))
