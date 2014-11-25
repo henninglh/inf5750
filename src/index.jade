@@ -17,7 +17,7 @@ body
                             span.caret
 
         .row
-            div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-3'")
+            div(ng-class="fullSize ? 'col-sm-12' : 'col-sm-5'")
                 .list-group
                     .list-group-item.clearfix(ng-repeat="dataElement in dataElements | filter:listFilter | limitTo : 20", ng-click="selectElement(dataElement)", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
                         .pull-right
@@ -28,4 +28,4 @@ body
                             a.list-icon-link(ng-href="#/edit/{{dataElement.id}}")
                                 i.flaticon-edit26
 
-            .col-sm-9(ng-view, ng-show="!fullSize")
+            .col-sm-7(ng-view, ng-show="!fullSize")

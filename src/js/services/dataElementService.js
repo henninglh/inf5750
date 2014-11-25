@@ -37019,7 +37019,7 @@ app.service('dataElementService', ['$http', '$q', function($http, $q) {
 
         for(var i = 0; i < elements.dataElements.length; i++)
             if(elements.dataElements[i].id === elementId) {
-                delete elements.dataElements[i];
+                elements.dataElements.splice(i, 1);
                 deferred.resolve(true)
             }
 
