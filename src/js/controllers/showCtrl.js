@@ -14,8 +14,4 @@ app.controller('showCtrl', ['$scope', 'Data', function($scope, Data) {
         id : Data.id
     };
 
-    console.log(Data);
-
-
-
 }]);

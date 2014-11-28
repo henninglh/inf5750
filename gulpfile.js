@@ -65,7 +65,6 @@ gulp.task('templates', function () {
             locals: YOUR_LOCALS
         }))
         .pipe(gulp.dest('./dist/'))
-        .pipe(connect.reload());
 });
 
 /**
@@ -73,7 +72,7 @@ gulp.task('templates', function () {
  * them into a single app.min.js file, ready for production
  **/
 gulp.task('scripts', function () {
-    return gulp.src(['./src/js/app.js', './src/js/services/*.js', './src/js/controllers/*.js', './src/js/config/*.js'])
+    return gulp.src(['./src/js/app.js', './src/js/services/*.js', './src/js/controllers/*.js', './src/js/config/*.js', './src/js/directives/*.js'])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
         .pipe(gulp.dest('dist/js/'))

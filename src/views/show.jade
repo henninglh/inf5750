@@ -1,29 +1,35 @@
-h2 {{labels.title}}
-script(src="../../bower_components/moment/moment.js")
-div(id="dataElement")
-    b Name:
-    p {{labels.name}}
-    b Short name:
-    p {{labels.shortName}}
-    b Description:
-    p {{labels.description}}
-    b Domain Type:
-    p {{labels.domainType}}
-    b Value Type:
-    p {{labels.valueType}}
-    b Aggregation operator:
-    p {{labels.aggregationOperator}}
-    b Category Combination:
-    p {{labels.categoryCombination}}
-    b URL:
-    p {{labels.url}}
-    b Last updated:
-    script.
-        var m = moment();
-        console.log(m);
-    p {{labels.lastUpdated}}
-    b Data sets:
-    div(ng-repeat= "dsElement in labels.dataSets")
-        p {{dsElement.name}}
-    b Id:
-    p {{labels.id}}
+div(class="panel panel-primary")
+    div(class="panel-heading text-center")
+        h1(class="panel-title") {{labels.name}}
+    div(class="panel-body")
+        div(ng-repeat="l in labels")
+            div(class="panel text-center panel-info")
+                div(class="panel-heading text-center") test
+                div(class="panel-body") {{l}}
+
+        //b Name:
+        //p {{labels.name}}
+        //b Short name:
+        //p {{labels.shortName}}
+        //b Description:
+        //p {{labels.description}}
+        //b Domain Type:
+        //p {{labels.domainType}}
+        //b Value Type:
+        //p {{labels.valueType}}
+        //b Aggregation operator:
+        //p {{labels.aggregationOperator}}
+        //b Category Combination:
+        //p {{labels.categoryCombination}}
+        //b URL:
+        //p {{labels.url}}
+        //b Last updated:
+        //p {{labels.lastUpdated}}
+        //b Data sets:
+        //div(ng-repeat= "dsElement in labels.dataSets")
+        //    p {{dsElement.name}}
+        //b Id:
+        //p {{labels.id}}
+bar-directive
+
+
