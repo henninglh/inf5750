@@ -37010,7 +37010,7 @@ app.service('dataElementService', ['$http', '$q', function($http, $q) {
 
     function getAllElements() {
         var deferred = $q.defer();
-        deferred.resolve(elements);
+        deferred.resolve(elements.dataElements);
         return deferred.promise;
     }
 
@@ -37052,6 +37052,8 @@ app.service('dataElementService', ['$http', '$q', function($http, $q) {
 
         return deferred.promise;
     }
+
+
 
     return {
         getElement: getElement,

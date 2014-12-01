@@ -7,7 +7,13 @@ app.config(['$routeProvider', function($routeProvider) {
 
         // When at the root url, the view should be empty, as we are showing the list
         .when('/', {
-            template: ''
+            controller: 'ListController',
+            resolve: {
+                Data: ['dataElementService', function(dataElementService) {
+                    return dataElementService.getAllElements();
+                }]
+            },
+            templateUrl: 'views/list.html'
         })
 
         // When we are at create, we should use the edit.html with the editCtrl, and inject Data = null
@@ -18,6 +24,21 @@ app.config(['$routeProvider', function($routeProvider) {
             resolve: {
                 Data: function() {
                     return null;
+                },
+                CategoryCombos: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                OptionSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                MapLegendSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsA: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsB: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
                 }
             }
         })
@@ -30,7 +51,22 @@ app.config(['$routeProvider', function($routeProvider) {
             resolve: {
                 Data: ['dataElementService', '$route', function(dataElementService, $route) {
                     return dataElementService.getElement($route.current.params.dataElementId);
-                }]
+                }],
+                CategoryCombos: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                OptionSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                MapLegendSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsA: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsB: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                }
             }
         })
 
@@ -43,7 +79,22 @@ app.config(['$routeProvider', function($routeProvider) {
                 Data: ['$http', function($http) {
                     return null;
                     //return $http.get('url-to-some-data-element');
-                }]
+                }],
+                CategoryCombos: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                OptionSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                MapLegendSets: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsA: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                },
+                DataElementGroupSetsB: function() {
+                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
+                }
             }
         })
 
@@ -60,8 +111,6 @@ app.config(['$routeProvider', function($routeProvider) {
         })
 
         // When accessing a url not covered in the routing, we send the user to the root(list).
-        .otherwise({
-            template: ''
-        });
+        .otherwise("/");
 
 }]);

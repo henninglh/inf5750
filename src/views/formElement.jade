@@ -1,0 +1,36 @@
+// Form group (standard)
+.form-group(ng-hide="(!scheme.validation.required && !show && (scheme.value == null || scheme.value.length == 0))", ng-class="scheme.error != null ? 'has-error' : ''")
+
+    // Label
+    label.col-sm-4.control-label(for="{{scheme.name}}") {{scheme.label}}
+        span.required-field(ng-show="scheme.validation.required") &nbsp;*&nbsp;
+
+    // Different types of inputs
+    .col-sm-4(ng-if="scheme.type=='text'")
+        input.form-control(type="text", name="{{scheme.name}}", id="{{scheme.name}}", placeholder="{{scheme.label}}", ng-model="scheme.value")
+    .col-sm-4(ng-if="scheme.type=='textArea'")
+        textarea.form-control(name="{{scheme.name}}", id="{{scheme.name}}", placeholder="{{scheme.label}}", ng-model="scheme.value")
+    .col-sm-4(ng-if="scheme.type=='select'")
+        select.form-control(name="{{scheme.name}}", id="{{scheme.name}}", ng-model="scheme.value", ng-options="opt.value as opt.label for opt in scheme.values")
+            option(selected="selected", value="", ng-if="(!scheme.value || scheme.value.length == 0)") Choose value
+    span.col-sm-4.help-block(ng-show="scheme.error != null") {{scheme.error}}
+// Dependencies (Only if previous value is a certain value; This is always required
+div(ng-repeat="subScheme in scheme.dependencies")
+
+    // Check if the criterias are in place
+    .form-group(ng-show="scheme.value==subScheme.parentValue", ng-class="subScheme.error != null ? 'has-error' : ''")
+
+        // Label
+        label.col-sm-4.control-label(for="{{subScheme.name}}") {{subScheme.label}}
+            span.required-field &nbsp;*&nbsp;
+
+        // Different types of inputs
+        .col-sm-4(ng-if="subScheme.type=='text'")
+            input.form-control(type="text", name="{{subScheme.name}}", id="{{subScheme.name}}", placeholder="{{subScheme.label}}", ng-model="subScheme.value")
+        .col-sm-4(ng-if="subScheme.type=='textArea'")
+            textarea.form-control(name="{{subScheme.name}}", id="{{subScheme.name}}", placeholder="{{subScheme.label}}", ng-model="subScheme.value")
+        .col-sm-4(ng-if="subScheme.type=='select'")
+            select.form-control(name="{{subScheme.name}}", id="{{subScheme.name}}", ng-model="subScheme.value", ng-options="opt.value as opt.label for opt in subScheme.values")
+                option(selected="selected", value="", ng-if="(!subScheme.value || subScheme.value.length == 0)") Choose value
+        span.col-sm-4.help-block(ng-show="subScheme.error != null") {{scheme.error}}
+
