@@ -4,7 +4,7 @@
  * $q is currently also ONLY used for test-data; Not production code
  */
 
-app.service('dataElementService', ['$http', '$q', function($http, $q) {
+app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     var elements = {};
 
     function getElement(elementId) {
@@ -23,10 +23,10 @@ app.service('dataElementService', ['$http', '$q', function($http, $q) {
                 elements = data;
                 deferred.resolve(elements);
             }).error(function(msg, code) {
-                deferred.reject(msg);
                 $log.error(msg, code);
+                deferred.reject(msg);
             });
-        
+
         return deferred.promise;
     }
 
