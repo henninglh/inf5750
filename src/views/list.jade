@@ -14,16 +14,17 @@
                         .form-group
                             label.col-sm-12(for="domainType") Domain type
                             .col-sm-12
-                                select.form-control(id="domainType")
-                                    option Aggregate
-                                    option Tracker
+                                select.form-control(id="domainType", ng-model="domainFilter.domainType")
+                                    option(value="") Both
+                                    option(value="AGGREGATE") Aggregate
+                                    option(value="TRACKER") Tracker
                         //
                             button.btn.btn-default.navbar-btn.navbar-right Sort by
                                 span.caret
 .row
     .col-sm-12
         .list-group
-            a.list-group-item.clearfix(ng-repeat="dataElement in dataElements | filter:listFilter | limitTo : 20", ng-href="#/show/{{dataElement.id}}", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
+            a.list-group-item.clearfix(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitTo : 20", ng-href="#/show/{{dataElement.id}}", ng-class="dataElement.active ? 'active' : ''") {{dataElement.name}}
                 .pull-right
                     .list-icon-link(ng-click="$event.preventDefault(); deleteElement($index, dataElement.id)")
                         i.flaticon-delete30

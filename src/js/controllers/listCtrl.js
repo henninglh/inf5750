@@ -4,7 +4,6 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dat
     $scope.listFilter = "";
 
     $scope.dataElements = Data.dataElements;
-    $log.info(Data.dataElements);
 
     $scope.selectElement = function(element) {
         for(var i = 0; i < $scope.dataElements.length; i++) {
