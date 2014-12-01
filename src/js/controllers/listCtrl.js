@@ -1,9 +1,10 @@
-app.controller("ListController", ['$window', '$scope', '$location', 'dataElementService', 'Data', function($window, $scope, $location, dataElementService, Data) {
+app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dataElementService', 'Data', function($window, $scope, $location, $log, dataElementService, Data) {
 
     /** I've heard rumors that say you don't have to initialize this, but it's good practice. **/
     $scope.listFilter = "";
 
-    $scope.dataElements = Data;
+    $scope.dataElements = Data.dataElements;
+    $log.info(Data.dataElements);
 
     $scope.selectElement = function(element) {
         for(var i = 0; i < $scope.dataElements.length; i++) {

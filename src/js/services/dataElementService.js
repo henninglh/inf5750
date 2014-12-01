@@ -5,7 +5,7 @@
  */
 
 app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
-    var elements = {};
+    var elements;
 
     function getElement(elementId) {
         var deferred = $q.defer();
@@ -18,14 +18,18 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
 
     function getAllElements() {
         var deferred = $q.defer();
-        $http.get('http://inf5750-2.uio.no/api/dataElements.json?fields=*&paging=false')
-            .success(function(data) {
-                elements = data;
-                deferred.resolve(elements);
-            }).error(function(msg, code) {
-                $log.error(msg, code);
-                deferred.reject(msg);
-            });
+        if (elements) {
+            deferred.resolve(elements);
+        } else {
+            $http.get('http://inf5750-2.uio.no/api/dataElements.json?fields=*&paging=false')
+                .success(function (data) {
+                    elements = data;
+                    deferred.resolve(elements);
+                }).error(function (msg, code) {
+                    $log.error(msg, code);
+                    deferred.reject(msg);
+                });
+        }
 
         return deferred.promise;
     }
