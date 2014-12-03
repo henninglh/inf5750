@@ -1,9 +1,3 @@
-
-/*
- * This service has test-data in it; The actual HTTP requests will be implemented between milestone 2 and 3.
- * $q is currently also ONLY used for test-data; Not production code
- */
-
 app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     var elements;
 
@@ -34,6 +28,7 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         return deferred.promise;
     }
 
+    // TODO: Remember to $http.post the deletion!
     function deleteElement(elementId) {
         var deferred = $q.defer();
 
@@ -48,11 +43,13 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         return deferred.promise;
     }
 
+    // TODO: Remember to set lastUpdated and to $http.post the change
     function updateElement(element) {
+        console.log("updating element");
         var deferred = $q.defer();
 
         for(var i = 0; i < elements.dataElements.length; i++)
-            if(elements.dataElements[i].id === elementId) {
+            if(elements.dataElements[i].id === element.id) {
                 element.dataElements[i] = element;
                 deferred.resolve(elements.dataElements[i]);
             }
@@ -62,7 +59,9 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         return deferred.promise;
     }
 
+    // TODO: Remember to set lastUpdated and to $http.post the change
     function createElement(element) {
+        console.log("creating element");
         var deferred = $q.defer();
 
         element.id = (Math.random() * 100000000);
@@ -80,5 +79,4 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         updateElement: updateElement,
         createElement: createElement
     }
-
 }]);

@@ -1,4 +1,4 @@
-app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB) {
+app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', function($scope, $window, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService) {
 
     $scope.schemes = [
         {
@@ -285,6 +285,15 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 }
             }
         }
+
+        var attr;
+
+        // TODO: Get the data not modified by the schemas
+        for (attr in Data) {
+            if (dataElement[attr] === null) {
+                dataElement[attr] = Data[attr];
+            }
+        }
         return dataElement;
     }
 
@@ -323,8 +332,8 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
 
                         if(attr == "dataElementGroups") {
                             scheme.value = [];
-                            for(var i = 0; i < data[attr].length; i++) {
-                                scheme.value.push({value: data[attr][i].id, label: data[attr][i].name});
+                            for(var j = 0; j < data[attr].length; j++) {
+                                scheme.value.push({value: data[attr][j].id, label: data[attr][j].name});
                             }
 
                             break;
@@ -339,8 +348,8 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                         continue;
                     }
 
-                    for (var j = 0; j < scheme.dependencies.length; j++) {
-                        var dependency = scheme.dependencies[j];
+                    for (var k = 0; k < scheme.dependencies.length; k++) {
+                        var dependency = scheme.dependencies[k];
 
                         if (dependency.name == attr) {
                             dependency.value = data[attr] + "";
@@ -348,15 +357,44 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                         }
                     }
                 }
-
             }
         }
-
     }
 
     $scope.save = function() {
-        console.log("validation is: ", validateSchemes());
-        var result = getDataElementFromSchemes();
+        var allSchemesAreValid = validateSchemes();
+        console.log("All schemes validated: " + allSchemesAreValid);
+
+        if (allSchemesAreValid) {
+            var result = getDataElementFromSchemes();
+            var promise;
+
+            // TODO: Make this "if" more failsafe
+            if ($location.path().indexOf("clone") != -1) {
+                promise = dataElementService.createElement(result);
+            } else {
+                promise = dataElementService.updateElement(result);
+            }
+            promise.then(function(res) {
+                if (res) {
+                    // TODO: remove from elements in list
+                    $window.alert("Saved!");
+                } else {
+                    $window.alert("Failed to update/create the element on the server!");
+                }
+            });
+        } else {
+            $window.alert("All schemes are not valid!");
+        }
+
+        $location.path("#/");
+    };
+
+    $scope.cancel = function() {
+        if ($window.confirm("Are you sure you want to cancel?")) {
+            // TODO: clear all schemas?
+            $location.path("#/");
+        }
     };
 
     $scope.showOptional = false;

@@ -1,5 +1,5 @@
 
-app.controller('showCtrl', ['$scope', 'Data', function($scope, Data) {
+app.controller('showCtrl', ['$scope', 'Data', 'dataElementService', function($scope, Data, dataElementService) {
     $scope.labels = {
         name : Data.name,
         shortName : Data.shortName,
@@ -13,5 +13,4 @@ app.controller('showCtrl', ['$scope', 'Data', function($scope, Data) {
         dataSets : Data.dataSets,
         id : Data.id
     };
-
 }]);

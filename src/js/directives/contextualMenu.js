@@ -1,4 +1,4 @@
-app.directive('contextualMenu', [function() {
+app.directive('contextualMenu', ['dataElementService', function(dataElementService) {
 
     return {
         restrict: 'C',
@@ -14,8 +14,12 @@ app.directive('contextualMenu', [function() {
             };
 
             $scope.deleteElement = function() {
-
+                console.log("DELETE ELEMENT - NOT IMPLEMENTED");
             };
+
+            $scope.changeAccess = function() {
+                console.log("CHANGE ACCESS - NOT IMPLEMENTED");
+            }
 
             $scope.$watch(
                 function() {
@@ -34,7 +38,7 @@ app.directive('contextualMenu', [function() {
                         $scope.buttons = ['back'];
                     }
                     if(n.indexOf("clone") > -1) {
-                        $scope.buttons = ['back', 'delete', 'access'];
+                        $scope.buttons = ['back', 'access'];
                         $scope.currentElement = $location.path().replace(new RegExp("/clone/"), "");
                     }
                     if(n.indexOf("edit") > -1) {
@@ -45,5 +49,4 @@ app.directive('contextualMenu', [function() {
             )
         }]
     };
-
 }]);
