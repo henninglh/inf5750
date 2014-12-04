@@ -1,5 +1,50 @@
 app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB) {
 
+    var categoryCombos = function() {
+        var res = [];
+        CategoryCombos.data.categoryCombos.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
+    var optionSets = function() {
+        var res = [];
+        OptionSets.data.optionSets.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
+    var mapLegendSets = function() {
+        var res = [];
+        MapLegendSets.data.mapLegendSets.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
+    var dataElementGroupSetsA = function() {
+        var res = [];
+        DataElementGroupSetsA.data.dataElementGroups.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
+    var dataElementGroupSetsB = function() {
+        var res = [];
+        DataElementGroupSetsB.data.dataElementGroups.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
     $scope.schemes = [
         {
             name: "name",
@@ -154,7 +199,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "categoryCombo",
             label: "Category Combination",
             type: "select",
-            values: CategoryCombos,
+            values: categoryCombos(),
             value: "",
             validation: {
                 required: true
@@ -164,7 +209,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "optionSet",
             label: "Option set for data values",
             type: "select",
-            values: OptionSets,
+            values: optionSets(),
             value: "",
             validation: {
                 required: false
@@ -174,7 +219,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "commentOptionSet",
             label: "Option set for comments",
             type: "select",
-            values: OptionSets,
+            values: optionSets(),
             value: "",
             validation: {
                 required: false
@@ -184,7 +229,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "selectedLegendSetId",
             label: "Legend set",
             type: "select",
-            values: MapLegendSets,
+            values: mapLegendSets(),
             value: "",
             validation: {
                 required: false
@@ -221,7 +266,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "dataElementGroups",
             label: "Main data element groups",
             type: "select",
-            values: DataElementGroupSetsA,
+            values: dataElementGroupSetsA(),
             value: "",
             validation: {
                 required: false
@@ -231,7 +276,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "trackerBasedData",
             label: "Tracker based data",
             type: "select",
-            values: DataElementGroupSetsB,
+            values: dataElementGroupSetsB(),
             value: "",
             validation: {
                 required: false

@@ -25,21 +25,21 @@ app.config(['$routeProvider', function($routeProvider) {
                 Data: function() {
                     return null;
                 },
-                CategoryCombos: function() {
-                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
-                },
-                OptionSets: function() {
-                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
-                },
-                MapLegendSets: function() {
-                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
-                },
-                DataElementGroupSetsA: function() {
-                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
-                },
-                DataElementGroupSetsB: function() {
-                    return ["Placeholder_1", "Placeholder_2", "Placeholder_3"];
-                }
+                CategoryCombos: ['$http', function($http) {
+                    return $http.get('/api/categoryCombos.json?paging=false');
+                }],
+                OptionSets: ['$http', function($http) {
+                    return $http.get('/api/optionSets.json?paging=false');
+                }],
+                MapLegendSets: ['$http', function($http) {
+                    return $http.get('/api/mapLegendSets.json?paging=false');
+                }],
+                DataElementGroupSetsA: ['$http', function($http) {
+                    return $http.get('/api/dataElementGroupSets/XY1vwCQskjX.json?paging=false');
+                }],
+                DataElementGroupSetsB: ['$http', function($http) {
+                    return $http.get('/api/dataElementGroupSets/VxWloRvAze8.json?paging=false');
+                }]
             }
         })
 
