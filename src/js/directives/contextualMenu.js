@@ -1,4 +1,4 @@
-app.directive('contextualMenu', ['dataElementService', function(dataElementService) {
+app.directive('contextualMenu', ['dataElementService', '$route', '$window', '$location', function(dataElementService, $route, $window, $location) {
 
     return {
         restrict: 'C',
@@ -14,7 +14,10 @@ app.directive('contextualMenu', ['dataElementService', function(dataElementServi
             };
 
             $scope.deleteElement = function() {
-                console.log("DELETE ELEMENT - NOT IMPLEMENTED");
+                if ($window.confirm("Are you sure you want to delete this element?")) {
+                    dataElementService.deleteElement($route.current.params.dataElementId);
+                    $location.path('#/');
+                }
             };
 
             $scope.changeAccess = function() {

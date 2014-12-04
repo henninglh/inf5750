@@ -1,4 +1,4 @@
-app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', function($scope, $window, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService) {
+app.controller('editCtrl', ['$scope', '$window', '$location', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', function($scope, $window, $location, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService) {
 
     $scope.schemes = [
         {
@@ -242,6 +242,7 @@ app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'Opti
         title: ((Data == null) ? "Creating new data element" : "Editing data element: " + Data.name)
     };
 
+
     if(Data != null) {
         populateSchemesWithData(Data);
     }
@@ -287,10 +288,8 @@ app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'Opti
         }
 
         var attr;
-
-        // TODO: Get the data not modified by the schemas
         for (attr in Data) {
-            if (dataElement[attr] === null) {
+            if (! (attr in dataElement)) {
                 dataElement[attr] = Data[attr];
             }
         }
@@ -298,7 +297,6 @@ app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'Opti
     }
 
     function populateSchemesWithData(data) {
-        console.log($scope.schemes);
         var attr;
 
         for(attr in data) {
@@ -363,36 +361,33 @@ app.controller('editCtrl', ['$scope', '$window', 'Data', 'CategoryCombos', 'Opti
 
     $scope.save = function() {
         var allSchemesAreValid = validateSchemes();
-        console.log("All schemes validated: " + allSchemesAreValid);
 
         if (allSchemesAreValid) {
             var result = getDataElementFromSchemes();
             var promise;
 
-            // TODO: Make this "if" more failsafe
-            if ($location.path().indexOf("clone") != -1) {
-                promise = dataElementService.createElement(result);
-            } else {
+            if (result.id != null) {
                 promise = dataElementService.updateElement(result);
+            } else {
+                promise = dataElementService.createElement(result);
             }
+
+            // Just give visual feedback of success/failure
             promise.then(function(res) {
                 if (res) {
-                    // TODO: remove from elements in list
-                    $window.alert("Saved!");
+                    $window.alert("Successfull save!");
                 } else {
                     $window.alert("Failed to update/create the element on the server!");
                 }
             });
+            $location.path("#/");
         } else {
             $window.alert("All schemes are not valid!");
         }
-
-        $location.path("#/");
     };
 
     $scope.cancel = function() {
         if ($window.confirm("Are you sure you want to cancel?")) {
-            // TODO: clear all schemas?
             $location.path("#/");
         }
     };
