@@ -334,7 +334,6 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     function populateSchemesWithData(data) {
-        console.log($scope.schemes);
         var attr;
 
         for(attr in data) {

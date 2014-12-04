@@ -5,20 +5,12 @@
  */
 
 app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
-    var elements;
+    var elements = null;
 
-    function getElement(elementId) {
-        var deferred = $q.defer();
-        for(var i = 0; i < elements.dataElements.length; i++)
-            if(elements.dataElements[i].id === elementId)
-                deferred.resolve(elements.dataElements[i]);
-        deferred.reject({status: 404});
-        return deferred.promise;
-    }
 
     function getAllElements() {
         var deferred = $q.defer();
-        if (elements) {
+        if (elements !== null) {
             deferred.resolve(elements);
         } else {
             $http.get('http://inf5750-2.uio.no/api/dataElements.json?fields=*&paging=false')
@@ -30,6 +22,24 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
                     deferred.reject(msg);
                 });
         }
+
+        return deferred.promise;
+    }
+
+    function getElement(elementId) {
+        var deferred = $q.defer();
+
+        getAllElements()
+            .then(function(elements) {
+                for(var i = 0; i < elements.dataElements.length; i++) {
+                    if (elements.dataElements[i].id === elementId) {
+                        deferred.resolve(elements.dataElements[i]);
+                        break;
+                    }
+                }
+            }, function(err) {
+                deferred.reject(err);
+            });
 
         return deferred.promise;
     }
