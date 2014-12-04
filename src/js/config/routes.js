@@ -78,8 +78,6 @@ app.config(['$routeProvider', function($routeProvider) {
             resolve: {
                 Data: ['$q', 'dataElementService', '$route', function($q, dataElementService, $route) {
                     var deferred = $q.defer();
-
-                    console.log('cloning element: ', $route.current.params.dataElementId);
                     dataElementService.getElement($route.current.params.dataElementId)
                         .then(function(data) {
                             var clone = angular.copy(data);

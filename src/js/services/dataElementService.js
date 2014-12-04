@@ -13,7 +13,7 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         if (elements !== null) {
             deferred.resolve(elements);
         } else {
-            $http.get('http://inf5750-2.uio.no/api/dataElements.json?fields=*&paging=false')
+            $http.get('/api/dataElements.json?fields=*&paging=false')
                 .success(function (data) {
                     elements = data;
                     deferred.resolve(elements);
@@ -22,7 +22,6 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
                     deferred.reject(msg);
                 });
         }
-
         return deferred.promise;
     }
 
@@ -45,6 +44,10 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function deleteElement(elementId) {
+
+        // MAKE SURE ELEMENTS EXISTS
+
+        // SEND HTTP REQ
         var deferred = $q.defer();
 
         for(var i = 0; i < elements.dataElements.length; i++)
@@ -59,6 +62,11 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function updateElement(element) {
+        // NEED TO MAKE SURE ELEMENTS EXISTS!
+
+        // NEED TO UPDATE ELEMENTS
+
+        // NEED TO DO THE ACTUALL HTTP REQ.
         var deferred = $q.defer();
 
         for(var i = 0; i < elements.dataElements.length; i++)
@@ -73,6 +81,10 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function createElement(element) {
+
+        // MAKE SURE ELEMENTS EXISTS, OR ELSE WE GET A LIST OF 1 ELEMENTS AFTER THIS
+
+        // PUSH THIS ELEMENT ON SUCCESS INTO elements
         var deferred = $q.defer();
 
         element.id = (Math.random() * 100000000);
