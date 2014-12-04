@@ -22,3 +22,15 @@ body {
 .panel-footer button {
     margin-left: 10px !important;
 }
+
+.loading-gif {
+    display: block;
+    width: 100%;
+    position: absolute;
+    background: url("../images/ajax-loader.gif") no-repeat;
+    background-position: center;
+    height: 500px;
+    text-align: center;
+    padding-top: 220px;
+    font-size: 18px;
+}
