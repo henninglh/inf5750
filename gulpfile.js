@@ -17,7 +17,7 @@ var testFiles = [
  * required files are present, then starts the server and watch
  * tasks for development
  **/
-gulp.task('default', ['build', 'server', 'watch']);
+gulp.task('default', ['clean', 'build', 'server', 'watch']);
 
 /**
  * Builds our source files into minified, rendered files,
