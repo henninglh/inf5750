@@ -38,3 +38,13 @@ body {
     animation: bounceInLeft 1s;
     -webkit-animation: bounceInLeft 1s;
 }
+
+.scheme-animation.ng-hide-remove {
+    animation: bounceInLeft 1s;
+    -webkit-animation: bounceInLeft 1s;
+}
+
+.scheme-animation.ng-hide-add {
+    animation: bounceOutRight 1s;
+    -webkit-animation: bounceOutRight 1s;
+}
