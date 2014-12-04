@@ -1,5 +1,5 @@
 // Form group (standard)
-.form-group(ng-hide="(!scheme.validation.required && !show && (scheme.value == null || scheme.value.length == 0))", ng-class="scheme.error != null ? 'has-error' : ''")
+.form-group.scheme-animation(ng-hide="(!scheme.validation.required && !show && (scheme.value == null || scheme.value.length == 0))", ng-class="scheme.error != null ? 'has-error' : ''")
 
     // Label
     label.col-sm-4.control-label(for="{{scheme.name}}") {{scheme.label}}
@@ -18,7 +18,7 @@
 div(ng-repeat="subScheme in scheme.dependencies")
 
     // Check if the criterias are in place
-    .form-group(ng-show="scheme.value==subScheme.parentValue", ng-class="subScheme.error != null ? 'has-error' : ''")
+    .form-group.scheme-animation(ng-show="scheme.value==subScheme.parentValue", ng-class="subScheme.error != null ? 'has-error' : ''")
 
         // Label
         label.col-sm-4.control-label(for="{{subScheme.name}}") {{subScheme.label}}

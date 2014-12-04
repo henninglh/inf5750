@@ -22,3 +22,29 @@ body {
 .panel-footer button {
     margin-left: 10px !important;
 }
+
+.loading-gif {
+    display: block;
+    width: 100%;
+    position: absolute;
+    background: url("../images/ajax-loader.gif") no-repeat center;
+    height: 500px;
+    text-align: center;
+    padding-top: 220px;
+    font-size: 18px;
+}
+
+.content.ng-enter {
+    animation: bounceInLeft 1s;
+    -webkit-animation: bounceInLeft 1s;
+}
+
+.scheme-animation.ng-hide-remove {
+    animation: bounceInLeft 1s;
+    -webkit-animation: bounceInLeft 1s;
+}
+
+.scheme-animation.ng-hide-add {
+    animation: bounceOutRight 1s;
+    -webkit-animation: bounceOutRight 1s;
+}

@@ -1,5 +1,49 @@
 app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB) {
 
+    /** Mapping values and labels from the input data **/
+
+    var categoryCombos = function() {
+        var res = [];
+        CategoryCombos.data.categoryCombos.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+    var optionSets = function() {
+        var res = [];
+        OptionSets.data.optionSets.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+    var mapLegendSets = function() {
+        var res = [];
+        MapLegendSets.data.mapLegendSets.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+    var dataElementGroupSetsA = function() {
+        var res = [];
+        DataElementGroupSetsA.data.dataElementGroups.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+    var dataElementGroupSetsB = function() {
+        var res = [];
+        DataElementGroupSetsB.data.dataElementGroups.forEach(function(element) {
+            res.push({label: element.name, value: element.id});
+        });
+
+        return res;
+    };
+
+    /** Schemes or configs for each of the fields in the editor **/
     $scope.schemes = [
         {
             name: "name",
@@ -154,7 +198,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "categoryCombo",
             label: "Category Combination",
             type: "select",
-            values: CategoryCombos,
+            values: categoryCombos(),
             value: "",
             validation: {
                 required: true
@@ -164,7 +208,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "optionSet",
             label: "Option set for data values",
             type: "select",
-            values: OptionSets,
+            values: optionSets(),
             value: "",
             validation: {
                 required: false
@@ -174,7 +218,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "commentOptionSet",
             label: "Option set for comments",
             type: "select",
-            values: OptionSets,
+            values: optionSets(),
             value: "",
             validation: {
                 required: false
@@ -184,7 +228,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "selectedLegendSetId",
             label: "Legend set",
             type: "select",
-            values: MapLegendSets,
+            values: mapLegendSets(),
             value: "",
             validation: {
                 required: false
@@ -221,7 +265,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "dataElementGroups",
             label: "Main data element groups",
             type: "select",
-            values: DataElementGroupSetsA,
+            values: dataElementGroupSetsA(),
             value: "",
             validation: {
                 required: false
@@ -231,7 +275,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             name: "trackerBasedData",
             label: "Tracker based data",
             type: "select",
-            values: DataElementGroupSetsB,
+            values: dataElementGroupSetsB(),
             value: "",
             validation: {
                 required: false
@@ -239,12 +283,12 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
         }
     ];
     $scope.labels = {
-        title: ((Data == null) ? "Creating new data element" : "Editing data element: " + Data.name)
+        title: ((Data == null) ? "Creating new data element" : ((Data.id == null) ? "Cloning data element: " : "Editing data element: ") + Data.name)
     };
 
-    if(Data != null) {
+    // Fill out the form if we are editing or cloning
+    if(Data != null)
         populateSchemesWithData(Data);
-    }
 
     /** Methods to interact with "schemes" **/
 
@@ -252,6 +296,9 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     // Easy to add more validation later!
     // Returns true \ false based on if an error occured or not
     function validateSchemes() {
+
+        // TODO; HANDLE VALIDATION ERRORS FROM SERVER!
+
         var err = 0;
         for(var i = 0; i < $scope.schemes.length; i++) {
             var scheme = $scope.schemes[i];
@@ -289,7 +336,6 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     function populateSchemesWithData(data) {
-        console.log($scope.schemes);
         var attr;
 
         for(attr in data) {
@@ -311,13 +357,11 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
 
                         if(attr == "categoryCombo") {
                             scheme.value = data[attr].id;
-
                             break;
                         }
 
                         if(attr == "aggregationLevels") {
                             scheme.value = data[attr].id;
-
                             break;
                         }
 
@@ -326,11 +370,8 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                             for(var i = 0; i < data[attr].length; i++) {
                                 scheme.value.push({value: data[attr][i].id, label: data[attr][i].name});
                             }
-
                             break;
                         }
-
-                        console.log(attr, "Still needs a home");
                     }
 
                     break;
@@ -355,6 +396,15 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     $scope.save = function() {
+
+        // STEP 1: VALIDATE LOCALLY
+        // STEP 2: SEND POST \ PUT \ PATCH REQUEST
+        // STEP 3: HANDLE RESPONSE;
+            // SUCCESS = saved, all is ok
+                // Send to SHOW/new-id-from-response
+            // ERROR = validation, or code error, or syntax error.
+                // Invalidate refrenced fields
+
         console.log("validation is: ", validateSchemes());
         var result = getDataElementFromSchemes();
     };
