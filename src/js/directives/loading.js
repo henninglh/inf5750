@@ -9,7 +9,7 @@ app.directive('loader', ['$rootScope', function($rootScope) {
           $scope.isLoading = function() { return $rootScope.loading.length > 0; }
         }],
         restrict: 'E',
-        template: "<div ng-show='isLoading()'><div class='loading-gif'>Loading data</div></div><div ng-hide='isLoading()' ng-transclude></div>",
+        template: "<div ng-show='isLoading()'><div class='loading-gif'>Solving world problems</div></div><div ng-hide='isLoading()' ng-transclude></div>",
         transclude: true
     }
 
