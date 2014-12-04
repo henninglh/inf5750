@@ -284,7 +284,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
         }
     ];
     $scope.labels = {
-        title: ((Data == null) ? "Creating new data element" : "Editing data element: " + Data.name)
+        title: ((Data == null) ? "Creating new data element" : ((Data.id == null) ? "Cloning data element: " : "Editing data element: ") + Data.name)
     };
 
     if(Data != null) {
