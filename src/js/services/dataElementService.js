@@ -28,14 +28,21 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         return deferred.promise;
     }
 
-    // TODO: Remember to $http.post the deletion!
     function deleteElement(elementId) {
         var deferred = $q.defer();
 
         for(var i = 0; i < elements.dataElements.length; i++)
             if(elements.dataElements[i].id === elementId) {
-                elements.dataElements.splice(i, 1);
-                deferred.resolve(true)
+                /* TODO: FIX THIS SHIT!
+                $http.delete('http://inf5750-2.uio.no/api/dataElements/' + elementId)
+                    .success(function (data) {
+                        console.log("DELETE SUCCESS: " + data);
+                        elements.dataElements.splice(i, 1);
+                        deferred.resolve(true)
+                    }).error(function (msg, code) {
+                        console.log("DELETE FAILURE: " + msg + " (" + code + ")");
+                    });
+                    */
             }
 
         deferred.reject(false);
