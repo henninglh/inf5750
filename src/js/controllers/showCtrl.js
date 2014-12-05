@@ -1,5 +1,7 @@
 
 app.controller('showCtrl', ['$scope', 'Data', '$filter', function($scope, Data, $filter) {
+    console.log(Data);
+
     $scope.labels = {
         name : Data.name,
         shortName : Data.shortName,
@@ -11,7 +13,9 @@ app.controller('showCtrl', ['$scope', 'Data', '$filter', function($scope, Data, 
         url : Data.url,
         lastUpdated : $filter('date')(Data.lastUpdated, 'd-MMM-yyyy H:mm'),
         dataSets : Data.dataSets,
-        id : Data.id
+        id : Data.id,
+        code : Data.code,
+        created: $filter('date')(Data.created, 'd-MMM-yyyy H:mm')
     };
 
 }]);
