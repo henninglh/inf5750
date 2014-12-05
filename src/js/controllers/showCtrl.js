@@ -1,5 +1,5 @@
 
-app.controller('showCtrl', ['$scope', 'Data', function($scope, Data) {
+app.controller('showCtrl', ['$scope', 'Data', '$filter', function($scope, Data, $filter) {
     $scope.labels = {
         name : Data.name,
         shortName : Data.shortName,
@@ -9,7 +9,7 @@ app.controller('showCtrl', ['$scope', 'Data', function($scope, Data) {
         aggregationOperator : Data.aggregationOperator,
         categoryCombination : Data.categoryCombo.name,
         url : Data.url,
-        lastUpdated : Data.lastUpdated,
+        lastUpdated : $filter('date')(Data.lastUpdated, 'd-MMM-yyyy H:mm'),
         dataSets : Data.dataSets,
         id : Data.id
     };
