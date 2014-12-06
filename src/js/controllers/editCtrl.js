@@ -369,6 +369,12 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             for(var i = 0; i < $scope.schemes.length; i++) {
                 var scheme = $scope.schemes[i];
 
+                // If Cloning:
+                if(Data !== null && Data.id === null) {
+                    if(scheme.name == attr && (attr == "name" || attr == "shortName"))
+                        data[attr] += "-clone"
+                }
+
                 if(scheme.name == attr) {
 
                     if(typeof data[attr] === "boolean")
@@ -423,6 +429,11 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     $scope.save = function() {
+        if(Data.id != null) {
+            console.log("EDIT NOT YET IMPLEMENTED!");
+            return;
+        }
+
         validateSchemes().then(function(res) {
             if(!res)
                 return;
