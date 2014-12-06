@@ -1,4 +1,4 @@
-app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', '$q', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService, $q) {
+app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', '$q', '$location', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService, $q, $location) {
 
     /** Mapping values and labels from the input data **/
 
@@ -337,7 +337,6 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
         }
 
         $q.all(promises).then(function() {
-            console.log("VALIDATION: ", err);
             mainDeferred.resolve(err==0);
         });
 
@@ -429,17 +428,16 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 return;
 
             dataElementService.createElement(getDataElementFromSchemes()).then(function(res) {
-                console.log(res);
                 if(res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
                     if(res.importConflicts) {
                         if(confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
                             return;
                         } else {
-                            // Redirect to list
+                            return $location.path("/");
                         }
                     }
 
-                    // Redirect to list
+                    return $location.path("/");
                 } else {
                     // I have no idea if this is a valid state
                     console.log("An error might have occurred");
