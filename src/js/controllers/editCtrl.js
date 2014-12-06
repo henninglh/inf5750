@@ -1,11 +1,11 @@
-app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB) {
+app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', '$q', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService, $q) {
 
     /** Mapping values and labels from the input data **/
 
     var categoryCombos = function() {
         var res = [];
         CategoryCombos.data.categoryCombos.forEach(function(element) {
-            res.push({label: element.name, value: element.id});
+            res.push({label: element.name, value: element});
         });
 
         return res;
@@ -13,7 +13,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     var optionSets = function() {
         var res = [];
         OptionSets.data.optionSets.forEach(function(element) {
-            res.push({label: element.name, value: element.id});
+            res.push({label: element.name, value: element});
         });
 
         return res;
@@ -21,7 +21,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     var mapLegendSets = function() {
         var res = [];
         MapLegendSets.data.mapLegendSets.forEach(function(element) {
-            res.push({label: element.name, value: element.id});
+            res.push({label: element.name, value: element});
         });
 
         return res;
@@ -29,7 +29,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     var dataElementGroupSetsA = function() {
         var res = [];
         DataElementGroupSetsA.data.dataElementGroups.forEach(function(element) {
-            res.push({label: element.name, value: element.id});
+            res.push({label: element.name, value: element});
         });
 
         return res;
@@ -37,7 +37,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     var dataElementGroupSetsB = function() {
         var res = [];
         DataElementGroupSetsB.data.dataElementGroups.forEach(function(element) {
-            res.push({label: element.name, value: element.id});
+            res.push({label: element.name, value: element});
         });
 
         return res;
@@ -61,8 +61,9 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             type: "text",
             value: null,
             validation: {
-                required: false,
-                maxLength: 50
+                required: true,
+                maxLength: 50,
+                unique: true
             }
         },
         {
@@ -72,7 +73,8 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             value: null,
             validation: {
                 required: false,
-                maxLength: 50
+                maxLength: 50,
+                unique: true
             }
         },
         {
@@ -296,12 +298,15 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     // Easy to add more validation later!
     // Returns true \ false based on if an error occured or not
     function validateSchemes() {
-
-        // TODO; HANDLE VALIDATION ERRORS FROM SERVER!
+        var promises = [];
+        var mainDeferred = $q.defer();
 
         var err = 0;
         for(var i = 0; i < $scope.schemes.length; i++) {
             var scheme = $scope.schemes[i];
+
+            scheme.error = null;
+
             if(scheme.validation.required && (!scheme.value || scheme.value.length == 0)) {
                 scheme.error = "This field is required";
                 err++;
@@ -311,9 +316,32 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 scheme.error = "This value is too long, max " + scheme.validation.maxLength + " characters";
                 err++;
             }
+
+            if(scheme.value !== null && scheme.validation.unique !== undefined && scheme.validation.unique === true) {
+                var deferred = $q.defer();
+
+                dataElementService.isUnique(scheme.name, scheme.value).then(function(res) {
+                    if(!res.unique) {
+                        for(var j = 0; j < $scope.schemes.length; j++) {
+                            if($scope.schemes[j].name == res.key)
+                                $scope.schemes[j].error = "This value is already used.";
+                        }
+                        err++;
+                    }
+
+                    deferred.resolve();
+                });
+
+                promises.push(deferred.promise);
+            }
         }
 
-        return err == 0;
+        $q.all(promises).then(function() {
+            console.log("VALIDATION: ", err);
+            mainDeferred.resolve(err==0);
+        });
+
+        return mainDeferred.promise;
     }
 
     function getDataElementFromSchemes() {
@@ -356,19 +384,19 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                     if(typeof data[attr] === "object") {
 
                         if(attr == "categoryCombo") {
-                            scheme.value = data[attr].id;
+                            scheme.value = data[attr];
                             break;
                         }
 
                         if(attr == "aggregationLevels") {
-                            scheme.value = data[attr].id;
+                            scheme.value = data[attr];
                             break;
                         }
 
                         if(attr == "dataElementGroups") {
                             scheme.value = [];
                             for(var i = 0; i < data[attr].length; i++) {
-                                scheme.value.push({value: data[attr][i].id, label: data[attr][i].name});
+                                scheme.value.push({value: data[attr][i], label: data[attr][i].name});
                             }
                             break;
                         }
@@ -396,17 +424,31 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     $scope.save = function() {
+        validateSchemes().then(function(res) {
+            if(!res)
+                return;
 
-        // STEP 1: VALIDATE LOCALLY
-        // STEP 2: SEND POST \ PUT \ PATCH REQUEST
-        // STEP 3: HANDLE RESPONSE;
-            // SUCCESS = saved, all is ok
-                // Send to SHOW/new-id-from-response
-            // ERROR = validation, or code error, or syntax error.
-                // Invalidate refrenced fields
+            dataElementService.createElement(getDataElementFromSchemes()).then(function(res) {
+                console.log(res);
+                if(res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
+                    if(res.importConflicts) {
+                        if(confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
+                            return;
+                        } else {
+                            // Redirect to list
+                        }
+                    }
 
-        console.log("validation is: ", validateSchemes());
-        var result = getDataElementFromSchemes();
+                    // Redirect to list
+                } else {
+                    // I have no idea if this is a valid state
+                    console.log("An error might have occurred");
+                }
+            }, function(err) {
+                alert("An error occurred while trying to save this element. Please try again later.");
+                console.log("An error occurred: ", err);
+            });
+        });
     };
 
     $scope.showOptional = false;

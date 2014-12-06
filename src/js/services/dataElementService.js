@@ -81,16 +81,54 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function createElement(element) {
-
-        // MAKE SURE ELEMENTS EXISTS, OR ELSE WE GET A LIST OF 1 ELEMENTS AFTER THIS
-
-        // PUSH THIS ELEMENT ON SUCCESS INTO elements
         var deferred = $q.defer();
 
-        element.id = (Math.random() * 100000000);
-        element.dataElements.push(element);
+        $http.post('/api/dataElements.json', element)
+            .success(function(res) {
+                if(!elements) {
+                    getAllElements().then(function() {
+                        deferred.resolve(res);
+                    });
+                } else {
+                    if(!res.importConflicts) {
+                        element.id = res.lastImported;
+                        elements.dataElements.push(element);
+                    }
+                    deferred.resolve(res);
+                }
 
-        deferred.resolve(element);
+            })
+            .error(function(err) {
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+    }
+
+    function isUnique(key, value) {
+        var deferred = $q.defer();
+
+        if(!elements) {
+            getAllElements().then(function() {
+                for(var i = 0; i < elements.dataElements.length; i++) {
+                    if(elements.dataElements[i][key] == value) {
+                        deferred.resolve({key: key, value: value, unique: false});
+                        break;
+                    }
+                }
+
+                deferred.resolve(true);
+            });
+        } else {
+            for(var i = 0; i < elements.dataElements.length; i++) {
+                if(elements.dataElements[i][key] == value) {
+                    deferred.resolve({key: key, value: value, unique: false});
+                    return deferred.promise;
+                }
+            }
+
+            deferred.resolve({key: key, value: value, unique: true});
+        }
 
         return deferred.promise;
     }
@@ -100,7 +138,8 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         getAllElements: getAllElements,
         deleteElement: deleteElement,
         updateElement: updateElement,
-        createElement: createElement
+        createElement: createElement,
+        isUnique: isUnique
     }
 
 }]);
