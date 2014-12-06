@@ -317,7 +317,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 err++;
             }
 
-            if(scheme.value !== null && scheme.validation.unique !== undefined && scheme.validation.unique === true) {
+            if((Data !== null && Data.id === null) && scheme.value !== null && scheme.validation.unique !== undefined && scheme.validation.unique === true) {
                 var deferred = $q.defer();
 
                 dataElementService.isUnique(scheme.name, scheme.value).then(function(res) {
@@ -359,6 +359,9 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 }
             }
         }
+
+        if(Data != null && Data.id != null)
+            dataElement.id = Data.id;
         return dataElement;
     }
 
@@ -429,34 +432,44 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     $scope.save = function() {
-        if(Data.id != null) {
-            console.log("EDIT NOT YET IMPLEMENTED!");
-            return;
-        }
-
         validateSchemes().then(function(res) {
             if(!res)
                 return;
 
-            dataElementService.createElement(getDataElementFromSchemes()).then(function(res) {
-                if(res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
-                    if(res.importConflicts) {
-                        if(confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
-                            return;
-                        } else {
-                            return $location.path("/");
+            if(Data == null || (Data.id == null)) { // CREATE || CLONE
+                dataElementService.createElement(getDataElementFromSchemes()).then(function (res) {
+                    if (res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
+                        if (res.importConflicts) {
+                            if (confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
+                                return;
+                            } else {
+                                return $location.path("/");
+                            }
                         }
-                    }
 
-                    return $location.path("/");
-                } else {
-                    // I have no idea if this is a valid state
-                    console.log("An error might have occurred");
-                }
-            }, function(err) {
-                alert("An error occurred while trying to save this element. Please try again later.");
-                console.log("An error occurred: ", err);
-            });
+                        return $location.path("/");
+                    } else {
+                        // I have no idea if this is a valid state
+                        console.log("An error might have occurred");
+                    }
+                }, function (err) {
+                    alert("An error occurred while trying to save this element. Please try again later.");
+                    console.log("An error occurred: ", err);
+                });
+            } else { // EDIT
+                dataElementService.updateElement(getDataElementFromSchemes()).then(function(res) {
+                   console.log("Result from update: ", res);
+                    if (res.status == "SUCCESS") {
+                        return $location.path("/");
+                    } else {
+                        // I have no idea if this is a valid state
+                        console.log("An error might have occurred");
+                    }
+                }, function(err) {
+                    alert("An error occurred while trying to save this element. Please try again later.");
+                    console.log("An error occurred: ", err);
+                });
+            }
         });
     };
 

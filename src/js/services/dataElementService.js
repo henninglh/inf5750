@@ -62,20 +62,27 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function updateElement(element) {
-        // NEED TO MAKE SURE ELEMENTS EXISTS!
-
-        // NEED TO UPDATE ELEMENTS
-
-        // NEED TO DO THE ACTUALL HTTP REQ.
         var deferred = $q.defer();
 
-        for(var i = 0; i < elements.dataElements.length; i++)
-            if(elements.dataElements[i].id === elementId) {
-                element.dataElements[i] = element;
-                deferred.resolve(elements.dataElements[i]);
-            }
-
-        deferred.reject({status: 404});
+        $http.put('/api/dataElements/' + element.id + '.json', element)
+            .success(function(res) {
+                if(!elements) {
+                    getAllElements().then(function() {
+                        deferred.resolve(res);
+                    });
+                } else {
+                    for(var i = 0; i < elements.dataElements.length; i++) {
+                        if(elements.dataElements[i].id == res.lastImported) {
+                            elements.dataElements[i] = element;
+                            deferred.resolve(res);
+                            return deferred.promise;
+                        }
+                    }
+                }
+            })
+            .error(function(err) {
+                deferred.reject(err);
+            });
 
         return deferred.promise;
     }
