@@ -458,7 +458,6 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 });
             } else { // EDIT
                 dataElementService.updateElement(getDataElementFromSchemes()).then(function(res) {
-                   console.log("Result from update: ", res);
                     if (res.status == "SUCCESS") {
                         return $location.path("/");
                     } else {
