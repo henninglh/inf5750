@@ -6,6 +6,6 @@ tr.list-row {
     cursor: pointer;
 }
 
-.glypicon-trash:hover {
+.glyphicon-trash:hover {
     color: red !important;
 }
