@@ -10,12 +10,13 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dat
         $location.path("/show/" + element.id);
     };
 
-    // TODO: Place confirmation on cursor location ($location)
-    $scope.deleteElement = function(index, elementId) {
-        if (index >= 0 && index < $scope.dataElements.length) {
-            if ($window.confirm('Are you sure?')) {
-                dataElementService.deleteElement(elementId);
-            }
+    $scope.deleteElement = function(elementId) {
+        if ($window.confirm('Are you sure?')) {
+            dataElementService.deleteElement(elementId)
+                .then(function() {
+                    $scope.dataElements = dataElementService.getAllElements();
+                });
         }
+        $location.path('/');
     };
 }]);

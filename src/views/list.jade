@@ -39,7 +39,7 @@
                             td {{dataElement.domainType | lowercase}}
                             td {{dataElement.aggregationOperator}}
                             td {{dataElement.type}}
-                            td(ng-click="$event.preventDefault(); deleteElement($index, dataElement.id);", aria-label="delete")
+                            td(ng-click="$event.preventDefault(); deleteElement(dataElement.id);", aria-label="delete")
                                 span.pull-right.glyphicon.glyphicon-trash(aria-hidden="true")
             //
                 .list-group
