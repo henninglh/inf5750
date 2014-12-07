@@ -14,7 +14,10 @@ app.directive('contextualMenu', [function() {
             };
 
             $scope.deleteElement = function() {
-
+                if ($window.confirm("Are you sure you want to delete this element?")) {
+                    dataElementService.deleteElement($route.current.params.dataElementId);
+                    $location.path('#/');
+                }
             };
 
             $scope.$watch(
