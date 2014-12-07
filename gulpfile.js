@@ -50,7 +50,7 @@ gulp.task('watch', function () {
  * Templates takes our source's .jade files and renders them in HTML
  * in the /dist& folder, ready for produciton
  **/
-gulp.task('templates', function () {
+gulp.task('templates', ['clean'], function () {
     var YOUR_LOCALS = {};
 
     gulp.src('./src/views/*.jade')
@@ -71,7 +71,7 @@ gulp.task('templates', function () {
  * Scripts takes our source's .js files and uglifies them, and concatenate
  * them into a single app.min.js file, ready for production
  **/
-gulp.task('scripts', function () {
+gulp.task('scripts', ['clean'], function () {
     return gulp.src(['./src/js/app.js', './src/js/services/*.js', './src/js/controllers/*.js', './src/js/config/*.js', './src/js/directives/*.js'])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
@@ -83,7 +83,7 @@ gulp.task('scripts', function () {
  * Styles takes our source's .css files, concatenate them into a single file
  * before minifying it, making t ready for production.
  **/
-gulp.task('styles', function () {
+gulp.task('styles', ['clean'],  function () {
     return gulp.src('./src/css/*.css')
         .pipe(concat('style.min.css'))
         .pipe(minifyCSS({keepBreaks: true}))
