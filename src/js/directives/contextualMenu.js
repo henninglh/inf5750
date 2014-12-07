@@ -1,4 +1,4 @@
-app.directive('contextualMenu', [function() {
+app.directive('contextualMenu', ['$route', '$window', '$location', 'dataElementService', function($route, $window, $location, dataElementService) {
 
     return {
         restrict: 'C',
@@ -48,5 +48,4 @@ app.directive('contextualMenu', [function() {
             )
         }]
     };
-
 }]);

@@ -13,16 +13,8 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dat
     $scope.deleteElement = function(index, elementId) {
         if (index >= 0 && index < $scope.dataElements.length) {
             if ($window.confirm('Are you sure?')) {
-                dataElementService.deleteElement(elementId)
-                    .then(function(result) {
-                        if (result) {
-                            $scope.dataElements.splice(index, 1);
-                        } else {
-                            console.log("$scope.deleteElement: " + result);
-                        }
-                    })
-            };
+                dataElementService.deleteElement(elementId);
+            }
         }
     };
-
 }]);

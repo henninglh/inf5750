@@ -44,19 +44,26 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function deleteElement(elementId) {
+        console.log("Trying to remove elementID: " + elementId);
 
         // MAKE SURE ELEMENTS EXISTS
 
         // SEND HTTP REQ
         var deferred = $q.defer();
-
-        for(var i = 0; i < elements.dataElements.length; i++)
-            if(elements.dataElements[i].id === elementId) {
-                elements.dataElements.splice(i, 1);
-                deferred.resolve(true)
-            }
-
-        deferred.reject(false);
+        $http.delete('/api/dataElements/' + elementId)
+            .success(function(res) {
+                console.log("SUCCESS! Deleted dataElement \"" + elementId + "\"");
+                for(var i = 0; i < elements.dataElements.length; i++) {
+                    if (elements.dataElements[i].id === elementId) {
+                        elements.dataElements.splice(i, 1);
+                        deferred.resolve(res);
+                    }
+                }
+            })
+            .error(function(err) {
+                console.log("FAILURE! Failed to delete dataElement \"" + elementId + "\"");
+                deferred.reject(err);
+            });
 
         return deferred.promise;
     }
