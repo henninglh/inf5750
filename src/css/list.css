@@ -1,24 +1,11 @@
-.list-group-item {
+/*.list-group-item {
+    cursor: pointer;
+}*/
+
+tr.list-row {
     cursor: pointer;
 }
 
-.list-icon-link {
-    text-decoration: none !important;
-    color: black;
-}
-
-.list-icon-link:hover {
-    color: gray;
-}
-
-.list-group-item.active a {
-    color: white;
-}
-
-.list-group-item.active a:hover {
-    color: lightgray;
-}
-
-.flaticon-delete30:hover {
-    color: red
+.glypicon-trash:hover {
+    color: red !important;
 }

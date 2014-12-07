@@ -5,15 +5,8 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dat
 
     $scope.dataElements = Data.dataElements;
 
-    $scope.selectElement = function(element) {
-        for(var i = 0; i < $scope.dataElements.length; i++) {
-            if ($scope.dataElements[i] === element)
-                $scope.dataElements[i].active = true;
-            else
-                $scope.dataElements[i].active = false;
-        }
-
-        $location.path("/show/" + element.id);
+    $scope.showElement = function(element) {
+        $location.path("#/show/" + element.id);
     };
 
     // TODO: Place confirmation on cursor location ($location)
