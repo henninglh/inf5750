@@ -24,6 +24,12 @@
 .row
     .col-sm-12
         .panel.panel-default
+            .panel-header
+                pagination(total-items="totalItems", items-per-page="itemsPerPage", ng-model="currentPage", ng-change="pageChanged()")
+                p
+                    | Total items: {{totalItems}}<br />
+                    | Items per page: {{itemsPerPage}}<br />
+                    | Current Page: {{currentPage}}
             .panel-body
                 table.table.table-hover
                     thead
@@ -34,7 +40,7 @@
                             th Type
                             th Delete
                     tbody
-                        tr.list-row(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitTo : 20", ng-click="$event.preventDefault(); showElement(dataElement);")
+                        tr.list-row(ng-repeat="dataElement in filteredDataElements", ng-click="$event.preventDefault(); showElement(dataElement);")
                             td {{dataElement.name}}
                             td {{dataElement.domainType | lowercase}}
                             td {{dataElement.aggregationOperator}}
