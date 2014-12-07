@@ -478,5 +478,11 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
         });
     };
 
+    $scope.cancel = function() {
+        if ($window.confirm('Are you sure you want to cancel?')) {
+            return $location.path('/');
+        }
+    };
+
     $scope.showOptional = false;
 }]);
