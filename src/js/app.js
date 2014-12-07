@@ -1,1 +1,1 @@
-var app = angular.module('dataElementBulkEditorApp', ['ngRoute', 'ngAnimate']);
+var app = angular.module('dataElementBulkEditorApp', ['ngRoute', 'ngAnimate', 'ui.select']);

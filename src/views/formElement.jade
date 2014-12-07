@@ -13,7 +13,11 @@
     .col-sm-4(ng-if="scheme.type=='select'")
         select.form-control(name="{{scheme.name}}", id="{{scheme.name}}", ng-model="scheme.value", ng-options="opt.value as opt.label for opt in scheme.values")
             option(selected="selected", value="", ng-if="(!scheme.value || scheme.value.length == 0)") Choose value
-    span.col-sm-4.help-block(ng-show="scheme.error != null") {{scheme.error}}
+    .col-sm-4(ng-if="scheme.type=='multiselect'")
+        ui-select(multiple, ng-model="scheme.value", theme="bootstrap", style="width: 100%")
+            ui-select-match(placeholder="Select aggregation levels...") {{$item.label}}
+            ui-select-choices(repeat="item.value as item in scheme.values") {{item.label}}
+        span.col-sm-4.help-block(ng-show="scheme.error != null") {{scheme.error}}
 // Dependencies (Only if previous value is a certain value; This is always required
 div(ng-repeat="subScheme in scheme.dependencies")
 

@@ -47,3 +47,7 @@ app.config(['$httpProvider', function($httpProvider) {
         }
     }]);
 }]);
+
+app.config(['uiSelectConfig', function(uiSelectConfig) {
+    uiSelectConfig.theme = 'bootstrap';
+}]);

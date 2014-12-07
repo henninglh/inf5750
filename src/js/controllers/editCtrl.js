@@ -239,8 +239,14 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
         { // TODO; SELECT MULTIPLE ITEMS
             name: "aggregationLevels",
             label: "Aggregation levels",
-            type: "checkbox",
+            type: "multiselect",
             value: null,
+            values: [
+                {value: 1, label: "National"},
+                {value: 2, label: "District"},
+                {value: 3, label: "Chiefdom"},
+                {value: 4, label: "Facility"}
+            ],
             validation: {
                 required: false
             }
