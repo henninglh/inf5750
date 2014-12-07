@@ -44,26 +44,35 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
     }
 
     function deleteElement(elementId) {
-        console.log("Trying to remove elementID: " + elementId);
-
-        // MAKE SURE ELEMENTS EXISTS
-
-        // SEND HTTP REQ
         var deferred = $q.defer();
-        $http.delete('/api/dataElements/' + elementId)
-            .success(function(res) {
-                console.log("SUCCESS! Deleted dataElement \"" + elementId + "\"");
-                for(var i = 0; i < elements.dataElements.length; i++) {
-                    if (elements.dataElements[i].id === elementId) {
-                        elements.dataElements.splice(i, 1);
-                        deferred.resolve(res);
-                    }
+        $http.get('/api/dataElements/' + elementId)
+            .success(function(getData, getCode) {
+                if (getCode >= 200 && getCode < 300) {
+                    $http.delete('/api/dataElements/' + elementId)
+                        .success(function (deleteData, deleteCode) {
+                            if (deleteCode >= 200 && deleteCode < 300) {
+                                for (var i = 0; i < elements.dataElements.length; i++) {
+                                    if (elements.dataElements[i].id === elementId) {
+                                        elements.dataElements.splice(i, 1);
+                                        deferred.resolve(true);
+                                    }
+                                }
+                            } else {
+                                console.log("deleteError: " + deleteCode);
+                                deferred.reject(false);
+                            }
+                        })
+                        .error(function (deleteData, deleteCode) {
+                            console.log("err: " + deleteCode);
+                            deferred.reject(false);
+                        });
                 }
             })
-            .error(function(err) {
-                console.log("FAILURE! Failed to delete dataElement \"" + elementId + "\"");
-                deferred.reject(err);
+            .error(function(data, errorCode) {
+                console.log("getError: " + errorCode);
+                deferred.reject(false);
             });
+
 
         return deferred.promise;
     }
