@@ -1,0 +1,9 @@
+.modal-header
+    .modal-title
+        | Title
+.modal-body
+    div(ng-repeat="items in metaData")
+        p items
+.modal-footer
+    button.btn.btn-primary.pull-right(ng-click="save()") Save
+    button.btn.btn-danger.pull-right(ng-click="cancel()") Cancel

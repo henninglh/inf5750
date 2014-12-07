@@ -1,6 +1,5 @@
 
 app.controller('showCtrl', ['$scope', 'Data', '$filter', function($scope, Data, $filter) {
-    console.log(Data);
 
     $scope.labels = {
         name : Data.name,

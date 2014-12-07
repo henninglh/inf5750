@@ -107,6 +107,16 @@ app.config(['$routeProvider', function($routeProvider) {
             }
         })
 
+        .when('/share/:dataElementId', {
+            controller: 'accessCtrl',
+            templateUrl: 'views/shareElement.html',
+            resolve: {
+                Data: ['dataElementService', '$route', function(dataElementService, $route) {
+                    return dataElementService.getAccessRights($route.current.params.dataElementId);
+                }]
+            }
+        })
+
         // When we are at show/:dataelementId, we are showing information about the selected element.
         // We request data from the api to fill our our view with the dataElements data.
         .when('/show/:dataElementId', {

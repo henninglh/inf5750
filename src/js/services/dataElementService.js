@@ -60,7 +60,19 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
 
         return deferred.promise;
     }
+    function getAccessRights(elementID) {
+        var deferred = $q.defer();
 
+        $http.get('/api/sharing?type=dataElement&id=' + elementID)
+            .success(function(res) {
+                deferred.resolve(res)
+            })
+            .error(function(err) {
+                deferred.reject(err);
+            })
+
+        return deferred.promise;
+    }
     function updateElement(element) {
         var deferred = $q.defer();
 
@@ -146,6 +158,7 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         deleteElement: deleteElement,
         updateElement: updateElement,
         createElement: createElement,
+        getAccessRights : getAccessRights,
         isUnique: isUnique
     }
 
