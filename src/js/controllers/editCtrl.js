@@ -236,7 +236,7 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
                 required: false
             }
         },
-        { // TODO; SELECT MULTIPLE ITEMS
+        {
             name: "aggregationLevels",
             label: "Aggregation levels",
             type: "multiselect",
