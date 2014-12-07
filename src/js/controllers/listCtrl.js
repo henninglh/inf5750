@@ -2,11 +2,12 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', 'dat
 
     /** I've heard rumors that say you don't have to initialize this, but it's good practice. **/
     $scope.listFilter = "";
+    $scope.domainFilter = "";
 
     $scope.dataElements = Data.dataElements;
 
     $scope.showElement = function(element) {
-        $location.path("#/show/" + element.id);
+        $location.path("/show/" + element.id);
     };
 
     // TODO: Place confirmation on cursor location ($location)
