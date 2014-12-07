@@ -3,11 +3,14 @@
                 | {{ labels.name }}
         .panel-body
                div(ng-repeat="(key, value) in labels")
-                       .panel.panel-info.text-center
+                       .panel.panel-info
                                .panel.panel-heading
                                        | {{key}}
                                .panel-body
-                                       | {{value}}
-                                       //TOOD: Traverse through array in dataSets
+                                       div(ng-if="key == 'dataSets' ")
+                                               div(ng-repeat="(key2, value2) in value")
+                                                       | {{value2.name}}
+                                       div(ng-if="key != 'dataSets'")
+                                               | {{value}}
 
 
