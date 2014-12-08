@@ -1,16 +1,105 @@
 .panel.panel-primary
-        .panel-heading.text-center
-                | {{ labels.name }}
-        .panel-body
-               div(ng-repeat="(key, value) in labels")
-                       .panel.panel-info
-                               .panel.panel-heading
-                                       | {{key}}
-                               .panel-body
-                                       div(ng-if="key == 'dataSets' ")
-                                               div(ng-repeat="(key2, value2) in value")
-                                                       | {{value2.name}}
-                                       div(ng-if="key != 'dataSets'")
-                                               | {{value}}
-
-
+    .panel-heading.text-center
+        | Showing data element
+    .panel-body
+        .row
+            .col-sm-12
+                h3(title="Element name")
+                    | {{ data.name }}
+                    span.pull-right
+                        .label.label-info(title="Element Code") {{ data.code }}
+                    div(style="text-indent: 15px", title="Element short name")
+                        small {{ data.shortName }}
+        .row(style="margin-top: 20px")
+            .col-sm-12
+                p(style="font-size: 12px")
+                    i Created {{ (data.user ? "by " + data.user.name + " " : "")}} at {{data.created | date}}
+                    br
+                    i Last updated at {{data.lastUpdated | date}}.
+        .row(style="margin-top: 20px")
+            .col-sm-12
+                i(ng-if="data.description.length>0") {{ data.description }}
+                i(ng-if="!data.description") No description
+        .row(style="margin-top: 20px")
+            .col-sm-6
+                .panel.panel-default
+                    .panel-heading Element Information
+                    table.table
+                        tr
+                            td.text-left Domain type
+                            td.text-right {{data.domainType}}
+                        tr
+                            td.text-left Value Type
+                            td.text-right
+                                | {{ getTypeName(data.type) }}
+                                span(ng-if="data.type=='string' || data.type=='int'")
+                                    | ( {{ getTypeName(data.numberType) || getTypeName(data.textType) }} )
+                        tr
+                            td.text-left Aggregator Operator
+                            td.text-right {{ data.aggregationOperator }}
+                        tr
+                            td.text-left Store zero-values?
+                            td.text-right {{ (data.zeroIsSignificant ? "Yes" : "No") }}
+                        tr
+                            td.text-left Aggregation Levels
+                            td.text-right
+                                ul.list-unstyled(ng-if="data.aggregationLevels.length>0")
+                                    li(ng-repeat="level in data.aggregationLevels") {{ getAggregationLevel(level) }}
+                                p(ng-if="data.aggregationLevels.length==0") N/A
+                        tr
+                            td.text-left Rationale
+                            td.text-right {{ data.rationale || "N/A" }}
+                        tr
+                            td.text-left Unit of Measure
+                            td.text-right {{ data.unitOfMeasure || "N/A" }}
+            .col-sm-6
+                .panel.panel-default
+                    .panel-heading Element Access
+                    table.table
+                        tr
+                            td.text-left External Access? (Without login)
+                            td.text-right {{ (data.externalAccess ? "Yes" : "No") }}
+                        tr
+                            td.text-left(colspan="2")
+                                b Groups with access
+                        tr(ng-repeat="group in data.userGroupAccesses")
+                            td.text-left {{ group.userGroup.name }}
+                            td.left-right {{ getAccess(group.userGroup.access) }}
+                        tr(ng-if="data.userGroupAccesses.length==0")
+                            td.text-center(colspan="2")
+                                p No groups found
+            .col-sm-6
+                .panel.panel-default
+                    .panel-heading Element Relations
+                    table.table
+                        tr
+                            td.text-left Category Combination
+                            td.text-right {{data.categoryCombo.name }}
+                        tr
+                            td.text-left Option set for Data values
+                            td.text-right {{ data.optionSet.name || "N/A" }}
+                        tr
+                            td.text-left Option set for Comments
+                            td.text-right {{ data.CommentsOptionSet.name || "N/A" }}
+                        tr
+                            td.text-left Legend Set
+                            td.text-right {{ data.selectedLegendSetId.name || "N/A" }}
+                        tr
+                            td.text-left Trackerbased data
+                            td.text-right {{ data.trackerBasedData.name || "N/A" }}
+            .col-sm-6
+                .panel.panel-default
+                    .panel-heading Part of datasets
+                    table.table(ng-if="data.dataSets.length>0")
+                        tr(ng-repeat="dataset in data.dataSets")
+                            td {{ dataset.name }}
+                    .panel-body.text-center(ng-if="data.dataSets.length==0")
+                        p No groups found
+            .col-sm-6
+                .panel.panel-default
+                    .panel-heading Data Element Groups
+                    table.table(ng-if="data.dataElementGroups.length>0")
+                        tr(ng-repeat="mdeg in data.dataElementGroups")
+                            td {{ mdeg.name }}
+                    .panel-body.text-center(ng-if="data.dataElementGroups.length==0")
+                        p No groups found
