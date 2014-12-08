@@ -118,6 +118,43 @@ app.service('dataElementService', ['$http', '$q', '$log', function($http, $q, $l
 
         return deferred.promise;
     }
+    function getAccessRights(elementID) {
+        var deferred = $q.defer();
+
+        $http.get('/api/sharing?type=dataElement&id=' + elementID)
+            .success(function(res) {
+                deferred.resolve(res)
+            })
+            .error(function(err) {
+                deferred.reject(err);
+            })
+
+        return deferred.promise;
+    }
+
+    function updateAccessRights(elementID, accessObject) {
+        var deferred = $q.defer();
+
+        var request = $http({
+            method: 'POST',
+            url: '/api/sharing?type=dataElement&id=' + elementID,
+            data: $.param(accessObject)
+        });
+
+        request.success(
+            function(res) {
+                deferred.resolve(res);
+            }
+        );
+
+        request.error(
+            function(err) {
+                deferred.reject(err);
+            }
+        );
+
+        return deferred.promise;
+    }
 
     /**
      * updateElement takes a element (validated already) and updates the referenced ID(element.id)
@@ -209,8 +246,10 @@ app.service('dataElementService', ['$http', '$q', '$log', function($http, $q, $l
         deleteElement: deleteElement,
         updateElement: updateElement,
         createElement: createElement,
-        isUnique: isUnique,
-        elements : elements
+        elements : elements,
+        getAccessRights : getAccessRights,
+        updateAccessRights: updateAccessRights,
+        isUnique: isUnique
     }
 
 }]);

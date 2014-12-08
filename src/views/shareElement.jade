@@ -1,0 +1,44 @@
+.modal-header
+    .modal-title
+        | {{data.name}}
+.modal-body
+    ui-select(multiple, ng-model="metaData.object.userGroupAccesses")
+        ui-select-choices(repeat="item in test") {{item.name}}
+    p(style="font-size 12px")
+        i Created {{ (data.user ? "by " + data.user.name + " " : "")}} at {{data.created | date}}
+
+    .form.form-horizontal
+        .form-group
+            label(for="metaData.meta.allowExternalAccess" class="col-sm-2 control-label") External Access
+            .col-sm-10
+                input(type="checkbox" ng-model="metaData.meta.allowExternalAccess")
+        .form-group
+            label(for="metaData.meta.allowPublicAccess" class="col-sm-2 control-label") Public Access
+            .col-sm-10
+                select(ng-model="metaData.meta.allowPublicAccess")
+                    option(value="--------") None
+                    option(value="r-------") Can read
+                    option(value="rw------") Can read/write
+
+    //table.table
+    //    tr
+    //        td.text-left External access (without login)
+    //        td.text-right
+    //            input(type="checkbox" ng-model="metaData.meta.allowExternalAccess")
+    //    tr
+    //        td.text-left Public access (with login)
+    //        td.text-right
+    //            select(ng-model="metaData.object.publicAccess")
+    //                option(value="--------") None
+    //                option(value="r-------") Can read
+    //                option(value="rw------") Can read/write
+    //
+    //    tr(ng-repeat="group in metaData.object.userGroupAccesses")
+    //        td.text-left {{group.name}}
+
+
+
+
+.modal-footer
+    button.btn.btn-primary.pull-right(ng-click="") Save
+    button.btn.btn-danger.pull-right(ng-click="") Cancel

@@ -17,7 +17,8 @@
                 a.btn.btn.btn-default.btn-block(href="#/clone/{{currentElement}}") Clone
 
             li(ng-show="buttonRequired('access')")
-                a.btn.btn.btn-default.btn-block(ng-click="changeAccess()") Sharing
+                //a.btn.btn.btn-default.btn-block(ng-click="shareElement()") Sharing
+                share-modal
 
             li(ng-show="buttonRequired('delete')")
                 a.btn.btn.btn-danger.btn-block(ng-click="deleteElement()") Delete

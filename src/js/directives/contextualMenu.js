@@ -1,5 +1,4 @@
 app.directive('contextualMenu', ['$route', '$window', '$location', 'dataElementService', function($route, $window, $location, dataElementService) {
-
     return {
         restrict: 'C',
         templateUrl: 'views/contextualMenu.html',
@@ -13,13 +12,16 @@ app.directive('contextualMenu', ['$route', '$window', '$location', 'dataElementS
                 return false;
             };
 
+            $scope.shareElement = function() {
+                dataElementService.getAccessRights($route.current.params.dataElementId);
+            }
+
             $scope.deleteElement = function() {
                 if ($window.confirm("Are you sure you want to delete this element?")) {
                     dataElementService.deleteElement($route.current.params.dataElementId);
                     $location.path('#/');
                 }
             };
-
             $scope.$watch(
                 function() {
                     return $location.path();
