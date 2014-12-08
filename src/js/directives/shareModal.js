@@ -2,9 +2,6 @@ app.directive('shareModal', ['$modal', function($modal) {
     return {
         restrict: 'E',
         transclude: true,
-        scope: {
-
-        },
         template: '<button class="btn btn-default btn-block" ng-click="open()">Share</button>',
         link: function(scope, element, attrs) {
             scope.open = function() {
@@ -14,9 +11,13 @@ app.directive('shareModal', ['$modal', function($modal) {
                     size: 'lg',
                     windowClass: 'app-modal-window',
                     backdrop: true,
+                    keyboard: true,
                     resolve: {
                         Data: ['dataElementService', '$route', function(dataElementService, $route) {
                             return dataElementService.getAccessRights($route.current.params.dataElementId);
+                        }],
+                        elementData: ['dataElementService', '$route', function(dataElementService, $route) {
+                            return dataElementService.getElement($route.current.params.dataElementId);
                         }]
                     }
 
@@ -24,6 +25,7 @@ app.directive('shareModal', ['$modal', function($modal) {
 
                 openModal.result.then(function() {
                    console.log('success');
+
                 }), function() {
                     console.log('no success');
                 };
