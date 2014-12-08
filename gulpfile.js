@@ -17,7 +17,7 @@ var testFiles = [
  * required files are present, then starts the server and watch
  * tasks for development
  **/
-gulp.task('default', ['clean', 'build', 'server', 'watch']);
+gulp.task('default', ['build', 'server', 'watch']);
 
 /**
  * Builds our source files into minified, rendered files,
@@ -50,7 +50,7 @@ gulp.task('watch', function () {
  * Templates takes our source's .jade files and renders them in HTML
  * in the /dist& folder, ready for produciton
  **/
-gulp.task('templates', ['clean'], function () {
+gulp.task('templates', [], function () {
     var YOUR_LOCALS = {};
 
     gulp.src('./src/views/*.jade')
@@ -71,7 +71,7 @@ gulp.task('templates', ['clean'], function () {
  * Scripts takes our source's .js files and uglifies them, and concatenate
  * them into a single app.min.js file, ready for production
  **/
-gulp.task('scripts', ['clean'], function () {
+gulp.task('scripts', [], function () {
     return gulp.src(['./src/js/app.js', './src/js/services/*.js', './src/js/controllers/*.js', './src/js/config/*.js', './src/js/directives/*.js'])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
@@ -83,7 +83,7 @@ gulp.task('scripts', ['clean'], function () {
  * Styles takes our source's .css files, concatenate them into a single file
  * before minifying it, making t ready for production.
  **/
-gulp.task('styles', ['clean'],  function () {
+gulp.task('styles', [],  function () {
     return gulp.src('./src/css/*.css')
         .pipe(concat('style.min.css'))
         .pipe(minifyCSS({keepBreaks: true}))
@@ -96,7 +96,7 @@ gulp.task('styles', ['clean'],  function () {
  * to our dist/ folder, making the deployed version independant of external
  * servers for these libraries(cdn)
  **/
-gulp.task('load', ['clean'], function () {
+gulp.task('load', [], function () {
     gulp.src('./bower_components/angular-mocks/angular-mocks.js*')
         .pipe(gulp.dest('./dist/js/'));
     gulp.src('./bower_components/**/*.min.js*')
