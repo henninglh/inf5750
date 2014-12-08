@@ -8,7 +8,6 @@ app.directive('shareModal', ['$modal', function($modal) {
                 var openModal = $modal.open({
                     templateUrl: 'views/shareElement.html',
                     controller: 'shareCtrl',
-                    size: 'lg',
                     windowClass: 'app-modal-window',
                     backdrop: true,
                     keyboard: true,

@@ -2,6 +2,12 @@ app.controller('shareCtrl', ['$scope', '$modal', 'Data', 'elementData', function
     $scope.data = elementData;
     $scope.metaData = Data;
 
+    $scope.dataObject = {
+        userGroups: "",
+        externalAccess: "",
+        publicAccess: ""
+    };
+
     /**
      * Object to handle each request to the API. Should be used as a payload
      * on the API post-request.
@@ -52,20 +58,30 @@ app.controller('shareCtrl', ['$scope', '$modal', 'Data', 'elementData', function
         //TODO: Populate the data, if there are no
 
     }
-    //Resolved from the /api/sharing call
-    //$scope.metaData = {
-    //    allowExternalAccess: Data.meta.allowExternalAccess,
-    //    allowPublicAccess: Data.meta.allowPublicAccess
-    //}
 
-    //Resolved from the /api/dataelement call...
-    //$scope.dataElementGroup = {
-    //    name: elementData.name,
-    //    created: elementData.created,
-    //    groups: elementData.dataElementGroups,
-    //    user: elementData.user
-    //}
+    /**
+     * Get values from object
+     */
+    function getValues(){
+        var dataElement = {};
+        for (var i = 0; i < $scope.dataObject.length; i++) {
+            var scheme = $scope.dataObject[i];
+            if (!scheme.value || scheme.value.length == 0) {
+                continue;
+            } else {
+                dataElement[scheme.name] = scheme.value;
+                if (!scheme.dependencies)
+                    continue;
 
+                for (var j = 0; j < scheme.dependencies.length; j++) {
+                    dataElement[scheme.dependencies[j].name] = scheme.dependencies[j] = value;
+                }
+            }
+        }
+        if (elementData != null && Data.id != null)
+            dataElement.id = Data.id;
+        return dataElement;
+    }
     /**
      * Saving the changes to the API. POST-request
      */
