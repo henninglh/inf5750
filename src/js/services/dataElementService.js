@@ -47,10 +47,10 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         var deferred = $q.defer();
         $http.get('/api/dataElements/' + elementId)
             .success(function(getData, getCode) {
-                if (getCode >= 200 && getCode < 300) {
+                if (getCode >= 200 && getCode < 400) {
                     $http.delete('/api/dataElements/' + elementId)
                         .success(function (deleteData, deleteCode) {
-                            if (deleteCode >= 200 && deleteCode < 300) {
+                            if (deleteCode >= 200 && deleteCode < 400) {
                                 for (var i = 0; i < elements.dataElements.length; i++) {
                                     if (elements.dataElements[i].id === elementId) {
                                         elements.dataElements.splice(i, 1);
@@ -115,7 +115,7 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
                 } else {
                     if(!res.importConflicts) {
                         element.id = res.lastImported;
-                        elements.dataElements.push(element);
+                        elements.dataElements.unshift(element);
                     }
                     deferred.resolve(res);
                 }
@@ -162,7 +162,8 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         deleteElement: deleteElement,
         updateElement: updateElement,
         createElement: createElement,
-        isUnique: isUnique
+        isUnique: isUnique,
+        elements : elements
     }
 
 }]);

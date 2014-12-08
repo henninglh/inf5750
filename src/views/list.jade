@@ -34,32 +34,18 @@
                             th Type
                             th Delete
                     tbody
-                        tr.list-row(ng-repeat="dataElement in pageDataElements", ng-click="$event.preventDefault(); showElement(dataElement);")
+                        tr.list-row(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitToPage", ng-click="showElement(dataElement);")
                             td {{dataElement.name}}
                             td {{dataElement.domainType | lowercase}}
                             td {{dataElement.aggregationOperator}}
                             td {{dataElement.type}}
-                            td(ng-click="$event.preventDefault(); deleteElement(dataElement.id);", aria-label="delete")
-                                span.pull-right.glyphicon.glyphicon-trash(aria-hidden="true")
+                            td
+                                span.pull-right.glyphicon.glyphicon-trash(ng-click="$event.stopPropagation(); deleteElement(dataElement.id);")
                 nav
                     ul.pagination
                         li(ng-class="currentPage == 0 ? 'disaled' : ''")
                             span(ng-click="prevPage();") &laquo;
                         li.disabled
-                            span {{pageCurrent}}/{{pageMax}}
+                            span {{pageCurrent + 1}}/{{pageMax}}
                         li(ng-class="currentPage == pageMax ? 'disabled' : ''")
                             span(ng-click="nextPage();") &raquo;
-            //
-                .list-group
-                    .list-group.clearfix
-                        .col-sm-7 Name
-                        .col-sm-2 Domain
-                        .col-sm-1 Operator
-                        .col-sm-1 Type
-                    a.list-group-item.clearfix(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitTo : 20", ng-href="#/show/{{dataElement.id}}", ng-class="dataElement.active ? 'active' : ''")
-                        .col-sm-7 {{dataElement.name}}
-                        .col-sm-2 {{dataElement.domainType | lowercase}}
-                        .col-sm-1 {{dataElement.aggregationOperator}}
-                        .col-sm-1 {{dataElement.type}}
-                        .col-sm-1(ng-click="$event.preventDefault(); deleteElement($index, dataElement.id)", aria-label="deleteI")
-                            span.pull-right.glyphicon.glyphicon-trash(aria-hidden="true")
