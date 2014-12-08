@@ -1,4 +1,16 @@
-app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'MapLegendSets', 'DataElementGroupSetsA', 'DataElementGroupSetsB', 'dataElementService', '$q', '$location', function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService, $q, $location) {
+app.controller('editCtrl', [
+    '$scope',
+    'Data',
+    'CategoryCombos',
+    'OptionSets',
+    'MapLegendSets',
+    'DataElementGroupSetsA',
+    'DataElementGroupSetsB',
+    'dataElementService',
+    '$q',
+    '$location',
+    '$window',
+    function($scope, Data, CategoryCombos, OptionSets, MapLegendSets, DataElementGroupSetsA, DataElementGroupSetsB, dataElementService, $q, $location, $window) {
 
     /** Mapping values and labels from the input data **/
 
@@ -302,10 +314,11 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
 
     // Checks if required fields are present;
     // Easy to add more validation later!
-    // Returns true \ false based on if an error occured or not
+    // Returns true \ false based on if an error occurred or not
     function validateSchemes() {
-        var promises = [];
+        var promises = {};
         var mainDeferred = $q.defer();
+
 
         var err = 0;
         for(var i = 0; i < $scope.schemes.length; i++) {
@@ -324,27 +337,28 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
             }
 
             if((Data !== null && Data.id === null) && scheme.value !== null && scheme.validation.unique !== undefined && scheme.validation.unique === true) {
-                var deferred = $q.defer();
+                promises[scheme.name] = $q.defer();
 
                 dataElementService.isUnique(scheme.name, scheme.value).then(function(res) {
                     if(!res.unique) {
                         for(var j = 0; j < $scope.schemes.length; j++) {
-                            if($scope.schemes[j].name == res.key)
+                            if($scope.schemes[j].name == res.key) {
                                 $scope.schemes[j].error = "This value is already used.";
+                                return promises[res.key].reject();
+                            }
                         }
                         err++;
+                    } else {
+                        return promises[res.key].resolve();
                     }
-
-                    deferred.resolve();
                 });
-
-                promises.push(deferred.promise);
             }
         }
 
-        $q.all(promises).then(function() {
-            mainDeferred.resolve(err==0);
-        });
+        $q.all(promises)
+            .finally(function() {
+                mainDeferred.resolve();
+            });
 
         return mainDeferred.promise;
     }
@@ -438,44 +452,46 @@ app.controller('editCtrl', ['$scope', 'Data', 'CategoryCombos', 'OptionSets', 'M
     }
 
     $scope.save = function() {
-        validateSchemes().then(function(res) {
-            if(!res)
-                return;
+        validateSchemes()
+            .then(function() {
+                for(var i = 0; i < $scope.schemes.length; i++)
+                    if($scope.schemes[i].error)
+                        return;
 
-            if(Data == null || (Data.id == null)) { // CREATE || CLONE
-                dataElementService.createElement(getDataElementFromSchemes()).then(function (res) {
-                    if (res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
-                        if (res.importConflicts) {
-                            if (confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
-                                return;
-                            } else {
-                                return $location.path("/");
+                if(Data == null || (Data.id == null)) { // CREATE || CLONE
+                    dataElementService.createElement(getDataElementFromSchemes()).then(function (res) {
+                        if (res.status == "SUCCESS") { // Everything is ok; OR; this was a duplicate in some way, and was ignored; Report!
+                            if (res.importConflicts) {
+                                if (confirm("An element with the name " + res.importConflicts[0].object + " already exists. Do you want to return to the form?")) {
+                                    return;
+                                } else {
+                                    return $location.path("/");
+                                }
                             }
-                        }
 
-                        return $location.path("/");
-                    } else {
-                        // I have no idea if this is a valid state
-                        console.log("An error might have occurred");
-                    }
-                }, function (err) {
-                    alert("An error occurred while trying to save this element. Please try again later.");
-                    console.log("An error occurred: ", err);
-                });
-            } else { // EDIT
-                dataElementService.updateElement(getDataElementFromSchemes()).then(function(res) {
-                    if (res.status == "SUCCESS") {
-                        return $location.path("/");
-                    } else {
-                        // I have no idea if this is a valid state
-                        console.log("An error might have occurred");
-                    }
-                }, function(err) {
-                    alert("An error occurred while trying to save this element. Please try again later.");
-                    console.log("An error occurred: ", err);
-                });
-            }
-        });
+                            return $location.path("/");
+                        } else {
+                            // I have no idea if this is a valid state
+                            console.log("An error might have occurred");
+                        }
+                    }, function (err) {
+                        alert("An error occurred while trying to save this element. Please try again later.");
+                        console.log("An error occurred: ", err);
+                    });
+                } else { // EDIT
+                    dataElementService.updateElement(getDataElementFromSchemes()).then(function(res) {
+                        if (res.status == "SUCCESS") {
+                            return $location.path("/");
+                        } else {
+                            // I have no idea if this is a valid state
+                            console.log("An error might have occurred");
+                        }
+                    }, function(err) {
+                        alert("An error occurred while trying to save this element. Please try again later.");
+                        console.log("An error occurred: ", err);
+                    });
+                }
+            });
     };
 
     $scope.cancel = function() {
