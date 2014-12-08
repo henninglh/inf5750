@@ -45,34 +45,24 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
 
     function deleteElement(elementId) {
         var deferred = $q.defer();
-        $http.get('/api/dataElements/' + elementId)
-            .success(function(getData, getCode) {
-                if (getCode >= 200 && getCode < 400) {
-                    $http.delete('/api/dataElements/' + elementId)
-                        .success(function (deleteData, deleteCode) {
-                            if (deleteCode >= 200 && deleteCode < 400) {
-                                for (var i = 0; i < elements.dataElements.length; i++) {
-                                    if (elements.dataElements[i].id === elementId) {
-                                        elements.dataElements.splice(i, 1);
-                                        deferred.resolve(true);
-                                    }
-                                }
-                            } else {
-                                console.log("deleteError: " + deleteCode);
-                                deferred.reject(false);
-                            }
-                        })
-                        .error(function (deleteData, deleteCode) {
-                            console.log("err: " + deleteCode);
-                            deferred.reject(false);
-                        });
+        $http.delete('/api/dataElements/' + elementId)
+            .success(function (deleteData, deleteCode) {
+                if (deleteCode >= 200 && deleteCode < 300) {
+                    for (var i = 0; i < elements.dataElements.length; i++) {
+                        if (elements.dataElements[i].id === elementId) {
+                            elements.dataElements.splice(i, 1);
+                            deferred.resolve(true);
+                        }
+                    }
+                } else {
+                    console.log("deleteError: " + deleteCode);
+                    deferred.reject(false);
                 }
             })
-            .error(function(data, errorCode) {
-                console.log("getError: " + errorCode);
+            .error(function (deleteData, deleteCode) {
+                console.log("err: " + deleteCode);
                 deferred.reject(false);
             });
-
 
         return deferred.promise;
     }
