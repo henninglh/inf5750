@@ -34,7 +34,7 @@
                             th Type
                             th Delete
                     tbody
-                        tr.list-row(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitToPage", ng-click="showElement(dataElement);")
+                        tr.list-row(ng-repeat="dataElement in dataElements | orderBy: 'name' | filter:domainFilter:strict | filter:listFilter | limitToPage", ng-click="showElement(dataElement);")
                             td {{dataElement.name}}
                             td {{dataElement.domainType | lowercase}}
                             td {{dataElement.aggregationOperator}}
