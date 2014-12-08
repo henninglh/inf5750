@@ -20,17 +20,28 @@ app.controller("ListController", ['$window', '$scope', '$location', '$log', '$fi
     $scope.pageSize = 20;
 
     $scope.$watch(function(){return $scope.filteredDataElements}, function() {
-        $scope.pageMax = Math.ceil($scope.filteredDataElements.length / $scope.pageSize);
+        $scope.pageMax = Math.floor($scope.filteredDataElements.length / $scope.pageSize);
         $log.info("pageMax: " + $scope.pageMax);
+
+        if ($scope.pageMax < $scope.pageCurrent) {
+            $scope.pageCurrent = $scope.pageMax;
+            $log.info("pagecurrent set to pageMax");
+            updateCurrentPage();
+        }
     });
 
     $scope.$watchGroup(['pageCurrent', 'filteredDataElements'], function() {
+        updateCurrentPage();
+    });
+
+    // Helper for watchers above.
+    var updateCurrentPage = function() {
         var start = $scope.pageCurrent * $scope.pageSize,
             end = start + $scope.pageSize;
         $scope.pageDataElements = $scope.filteredDataElements.slice(start, end);
         $log.info("start: " + start);
         $log.info("end: " + end);
-    });
+    }
 
     $scope.nextPage = function() {
         if ($scope.pageCurrent < $scope.pageMax) {
