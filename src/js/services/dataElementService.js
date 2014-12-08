@@ -105,7 +105,7 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
                 } else {
                     if(!res.importConflicts) {
                         element.id = res.lastImported;
-                        elements.dataElements.push(element);
+                        elements.dataElements.unshift(element);
                     }
                     deferred.resolve(res);
                 }
@@ -152,7 +152,8 @@ app.service('dataElementService', ['$http', '$q', "$log", function($http, $q) {
         deleteElement: deleteElement,
         updateElement: updateElement,
         createElement: createElement,
-        isUnique: isUnique
+        isUnique: isUnique,
+        elements : elements
     }
 
 }]);
