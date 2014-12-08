@@ -14,7 +14,7 @@
                         .form-group
                             label.col-sm-12(for="domainType") Domain type
                             .col-sm-12
-                                select.form-control(id="domainType", ng-model="domainFilter.domainType")
+                                select.form-control(id="domainType", ng-model="domainFilter")
                                     option(value="") Both
                                     option(value="AGGREGATE") Aggregate
                                     option(value="TRACKER") Tracker
@@ -34,13 +34,21 @@
                             th Type
                             th Delete
                     tbody
-                        tr.list-row(ng-repeat="dataElement in dataElements | filter:domainFilter:strict | filter:listFilter | limitTo : 20", ng-click="$event.preventDefault(); showElement(dataElement);")
+                        tr.list-row(ng-repeat="dataElement in pageDataElements", ng-click="$event.preventDefault(); showElement(dataElement);")
                             td {{dataElement.name}}
                             td {{dataElement.domainType | lowercase}}
                             td {{dataElement.aggregationOperator}}
                             td {{dataElement.type}}
                             td(ng-click="$event.preventDefault(); deleteElement(dataElement.id);", aria-label="delete")
                                 span.pull-right.glyphicon.glyphicon-trash(aria-hidden="true")
+                nav
+                    ul.pagination
+                        li(ng-class="currentPage == 0 ? 'disaled' : ''")
+                            span(ng-click="prevPage();") &laquo;
+                        li.disabled
+                            span {{pageCurrent}}/{{pageMax}}
+                        li(ng-class="currentPage == pageMax ? 'disabled' : ''")
+                            span(ng-click="nextPage();") &raquo;
             //
                 .list-group
                     .list-group.clearfix
