@@ -2,19 +2,29 @@
     .modal-title
         | {{data.name}}
 .modal-body
-    input(type="text" ng-model="userGroups" placeholder="Search for user groups")
+    ui-select(multiple, ng-model="metaData.object.userGroupAccesses")
+        ui-select-choices(repeat="item in test") {{item.name}}
     p(style="font-size 12px")
         i Created {{ (data.user ? "by " + data.user.name + " " : "")}} at {{data.created | date}}
     table.table
         tr
             td.text-left External access (without login)
-            td.text-right {{ metaData.meta.allowExternalAccess}}
+            td.text-right
+                input(type="checkbox" ng-model="metaData.meta.allowExternalAccess")
         tr
             td.text-left Public access (with login)
-            td.text-right {{metaData.meta.allowPublicAccess}}
-        tr
-            td.text-left Feedback Message Recipients
-            td.text-right {{data.userGroupAccesses}}
+            td.text-right
+                select(ng-model="metaData.object.publicAccess")
+                    option(value="--------") None
+                    option(value="r-------") Can read
+                    option(value="rw------") Can read/write
+
+        tr(ng-repeat="group in metaData.object.userGroupAccesses")
+            td.text-left {{group.name}}
+
+
+
+
 .modal-footer
-    button.btn.btn-primary.pull-right(ng-click="save()") Save
-    button.btn.btn-danger.pull-right(ng-click="cancel()") Cancel
+    button.btn.btn-primary.pull-right(ng-click="") Save
+    button.btn.btn-danger.pull-right(ng-click="") Cancel
