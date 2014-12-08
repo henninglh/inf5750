@@ -11,6 +11,5 @@ tr.list-row {
 }
 
 table {
-    (
-white-space:nowrap;overflow: hidden;
+    white-space:nowrap;overflow: hidden;
 }
