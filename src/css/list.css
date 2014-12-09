@@ -9,7 +9,3 @@ tr.list-row {
 .glyphicon-trash:hover {
     color: red !important;
 }
-
-table {
-    white-space:nowrap;overflow: hidden;
-}
